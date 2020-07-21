@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: test
+        run: dir BOOST_ROOT_1_69_0\include\boost
+
       - name: Setup MSBuild.exe
         uses: warrenbuckley/Setup-MSBuild@v1
 
@@ -27,13 +30,6 @@ jobs:
           modules: "qttools5"
           install-deps: "true"
 
-      - name: env
-        run: echo "::set-env name=BOOST_ROOT::$env:BOOST_ROOT_1_69_0"
-      - name: echo
-        run: $env:BOOST_ROOT
-
-      - name: test
-        run: dir $env:BOOST_ROOT\include
       - name: Build
         shell: powershell
         id: build
@@ -63,7 +59,7 @@ jobs:
           New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
           Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
-          Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=$env:BOOST_ROOT\include -DBOOST_LIBRARYDIR:PATH=C:\hostedtoolcache\windows\Boost\1.69.0 .." -NoNewWindow -Wait
+          Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=BOOST_ROOT_1_69_0\include -DBOOST_LIBRARYDIR:PATH=C:\hostedtoolcache\windows\Boost\1.69.0 .." -NoNewWindow -Wait
   # build-ubuntu16:
   #   name: Ubuntu 16.04
   #   runs-on: ubuntu-16.04
