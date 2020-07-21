@@ -61,8 +61,8 @@ jobs:
           New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
           Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/" -Recurse
-          Start-Process cmake -ArgumentList "-G ""Visual Studio 15 2017 Win64"" -DBoost_NO_BOOST_CMAKE=ON -DBOOST_LIBRARYDIR:PATH=C:\hostedtoolcache\windows\Boost\1.69.0\x86_64 .." -NoNewWindow -Wait
-          
+          Start-Process cmake -ArgumentList "-G ""Visual Studio 15 2017 Win64"" -DBoost_NO_BOOST_CMAKE=ON -DBOOST_LIBRARYDIR:PATH=C:\hostedtoolcache\windows\Boost\1.69.0 .." -NoNewWindow -Wait
+
 
   # build-ubuntu16:
   #   name: Ubuntu 16.04
