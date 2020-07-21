@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: test
-        run: dir /s $env:BOOST_ROOT_1_69_0
+        run: dir $env:BOOST_ROOT_1_69_0 /s
 
       - name: Setup MSBuild.exe
         uses: warrenbuckley/Setup-MSBuild@v1
