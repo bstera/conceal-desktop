@@ -15,17 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      # - name: Setup MSBuild.exe
-      #   uses: warrenbuckley/Setup-MSBuild@v1
+      - name: Setup MSBuild.exe
+        uses: warrenbuckley/Setup-MSBuild@v1
 
-      # - name: Install Qt
-      #   uses: jurplel/install-qt-action@v2
-      #   with:
-      #     version: "5.12.2"
-      #     host: "windows"
-      #     target: "desktop"
-      #     modules: "qttools5"
-      #     install-deps: "true"
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: "5.12.2"
+          host: "windows"
+          target: "desktop"
+          modules: "qttools5"
+          install-deps: "true"
 
       - name: env
         run: echo "::set-env name=BOOST_ROOT::$env:BOOST_ROOT_1_69_0"
@@ -33,37 +33,37 @@ jobs:
         run: $env:BOOST_ROOT
 
       - name: test
-        run: dir $env:BOOST_ROOT
-      # - name: Build
-      #   shell: powershell
-      #   id: build
-      #   env:
-      #     VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/"
-      #     BOOST_ROOT: ""
-      #   run: |
-      #     pushd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools"
-      #     cmd /c "VsMSBuildCmd.bat&set" |
-      #     foreach {
-      #       if ($_ -match "=") {
-      #         $v = $_.split("="); set-item -force -path "ENV:\$($v[0])"  -value "$($v[1])"
-      #         # echo ::set-env name=$($v[0])::$($v[1])
-      #         Write-Host "$v"
-      #       }
-      #     }
-      #     popd
-      #     $build_folder = "build"
-      #     $release_folder = "Release"
-      #     $ccx_ver = "${{ github.ref }}" -replace 'refs/tags/'
-      #     $release_name = "ccx-desktop-win64-v$ccx_ver"
-      #     $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
-      #     $filecontent = Get-Content CMakeLists.txt
-      #     $filecontent -replace '^set\(CMAKE_PREFIX_PATH.+',"set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")" | Set-Content CMakeLists.txt
-      #     Remove-Item cryptonote -Recurse -ErrorAction Ignore
-      #     git clone https://github.com/ConcealNetwork/conceal-core cryptonote
-      #     New-Item "$build_folder\$release_folder" -ItemType Directory
-      #     cd "$build_folder"
-      #     Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
-      #     Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_NO_BOOST_CMAKE=ON -DBOOST_LIBRARYDIR:PATH=C:\hostedtoolcache\windows\Boost\1.69.0 .." -NoNewWindow -Wait
+        run: dir $env:BOOST_ROOT\include
+      - name: Build
+        shell: powershell
+        id: build
+        env:
+          VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/"
+          BOOST_ROOT: ""
+        run: |
+          pushd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools"
+          cmd /c "VsMSBuildCmd.bat&set" |
+          foreach {
+            if ($_ -match "=") {
+              $v = $_.split("="); set-item -force -path "ENV:\$($v[0])"  -value "$($v[1])"
+              # echo ::set-env name=$($v[0])::$($v[1])
+              Write-Host "$v"
+            }
+          }
+          popd
+          $build_folder = "build"
+          $release_folder = "Release"
+          $ccx_ver = "${{ github.ref }}" -replace 'refs/tags/'
+          $release_name = "ccx-desktop-win64-v$ccx_ver"
+          $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
+          $filecontent = Get-Content CMakeLists.txt
+          $filecontent -replace '^set\(CMAKE_PREFIX_PATH.+',"set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")" | Set-Content CMakeLists.txt
+          Remove-Item cryptonote -Recurse -ErrorAction Ignore
+          git clone https://github.com/ConcealNetwork/conceal-core cryptonote
+          New-Item "$build_folder\$release_folder" -ItemType Directory
+          cd "$build_folder"
+          Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
+          Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=$env:BOOST_ROOT\include -DBOOST_LIBRARYDIR:PATH=C:\hostedtoolcache\windows\Boost\1.69.0 .." -NoNewWindow -Wait
   # build-ubuntu16:
   #   name: Ubuntu 16.04
   #   runs-on: ubuntu-16.04
