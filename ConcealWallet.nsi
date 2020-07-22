@@ -81,7 +81,6 @@ Section -MainProgram
 ${INSTALL_TYPE}
 SetOverwrite ifnewer
 SetOutPath "$INSTDIR"
-File /r ".\build\Release\Final\*"
 File /r ".\build\Release\CONCEAL-GUI.exe"
 SectionEnd
 

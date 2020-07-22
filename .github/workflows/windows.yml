@@ -78,11 +78,8 @@ jobs:
           $release_name = "${{ steps.build.outputs.release_name }}"
           $release_folder = "Release"
           cd "$build_folder"
-          mkdir "$release_folder/Final"
           cd "$release_folder"
-          # mkdir "Final/languages"
-          # cp ../../src/languages/*.qm "Final/languages"  
-          windeployqt --release CONCEAL-GUI.exe --dir "Final/"
+          windeployqt --release CONCEAL-GUI.exe
           cd ../../
           makensis ConcealWallet.nsi
           cd "$build_folder/$release_folder"
