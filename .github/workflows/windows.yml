@@ -88,7 +88,7 @@ jobs:
           files: ${{ steps.pack.outputs.asset_path }}
           name: Conceal Desktop v${{ steps.pack.outputs.ccx_ver }}
           body: |
-            [Download for Windows](${{ steps.url.outputs }}/${{ steps.pack.outputs.release_name }})
-            `${{ steps.pack.outputs.release_name }}, ${{ steps.pack.outputs.sha256 }}`
+            [Download for Windows](../../releases/download/${{ steps.pack.outputs.ccx_ver }}/${{ steps.pack.outputs.release_name }})
+            `${{ steps.pack.outputs.release_name }} : ${{ steps.pack.outputs.sha256 }}`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
