@@ -268,7 +268,7 @@ void MainWindow::changeEvent(QEvent *_event)
   {
     QString locale = QLocale::system().name();
     locale.truncate(locale.lastIndexOf('_'));
-    // loadLanguage(locale);
+    loadLanguage(locale);
   }
   case QEvent::WindowStateChange:
   {
