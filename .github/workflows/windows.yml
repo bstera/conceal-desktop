@@ -3,35 +3,43 @@ name: Windows
 on:
   push:
     tags:
-    - '*'
+      - "*"
 
 jobs:
   build-windows:
     name: Windows
-    runs-on: windows-2016
+    runs-on: windows-2019
     steps:
       - uses: actions/checkout@master
 
-      - name: Setup MSBuild.exe
-        uses: warrenbuckley/Setup-MSBuild@v1
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v1.0.0
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: '5.12.2'
-          host: 'windows'
-          target: 'desktop'
-          modules: 'qttools5'
-          install-deps: 'true'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          version: "5.12.2"
+          host: "windows"
+          target: "desktop"
+          modules: "qttools5"
+          install-deps: "true"
 
       - name: Build
         shell: powershell
         id: build
         env:
-          VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/"
+          VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/"
           BOOST_ROOT: ""
         run: |
-          pushd "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\Tools"
+          pushd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools"
           cmd /c "VsMSBuildCmd.bat&set" |
           foreach {
             if ($_ -match "=") {
@@ -52,9 +60,9 @@ jobs:
           git clone https://github.com/ConcealNetwork/conceal-core cryptonote
           New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
-          Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/" -Recurse
-          Start-Process cmake -ArgumentList "-G ""Visual Studio 15 2017 Win64"" -DBOOST_LIBRARYDIR:PATH=C:\hostedtoolcache\windows\Boost\1.69.0 .." -NoNewWindow -Wait
-          Start-Process msbuild -ArgumentList "CONCEAL-GUI.sln /p:Configuration=Release" -NoNewWindow -Wait
+          Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
+          Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=$env:BOOST_ROOT_1_69_0/include -DBOOST_LIBRARYDIR=$env:BOOST_ROOT_1_69_0 .." -NoNewWindow -Wait
+          msbuild CONCEAL-GUI.sln /p:Configuration=Release
           $build_path = "./$build_folder"
           echo "::set-output name=build_path::${build_path}"
           echo "::set-output name=release_name::${release_name}"
