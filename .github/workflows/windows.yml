@@ -19,7 +19,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1
         with:
-          path: C:/Qt
+          path: C:/Qt_cache
           key: ${{ runner.os }}-QtCache
 
       - name: Install Qt
