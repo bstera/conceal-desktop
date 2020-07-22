@@ -10,7 +10,7 @@ jobs:
     name: Windows
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
 
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1.0.0
@@ -19,7 +19,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v1
         with:
-          path: ../Qt
+          path: C:/Qt
           key: ${{ runner.os }}-QtCache
 
       - name: Install Qt
@@ -38,7 +38,6 @@ jobs:
         env:
           VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/"
           BOOST_ROOT: ""
-          MAKEFLAGS: "-j2"
         run: |
           pushd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools"
           cmd /c "VsMSBuildCmd.bat&set" |
@@ -78,8 +77,9 @@ jobs:
           $release_name = "${{ steps.build.outputs.release_name }}"
           $release_folder = "Release"
           cd "$build_folder"
+          mkdir "$release_folder/Final"
           cd "$release_folder"
-          windeployqt --release CONCEAL-GUI.exe
+          windeployqt --release CONCEAL-GUI.exe --dir "Final/"
           cd ../../
           makensis ConcealWallet.nsi
           cd "$build_folder/$release_folder"

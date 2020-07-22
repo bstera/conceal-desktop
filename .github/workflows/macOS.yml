@@ -10,7 +10,7 @@ jobs:
     name: macOS
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
