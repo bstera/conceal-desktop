@@ -15,17 +15,9 @@ jobs:
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1.0.0
 
-      - name: Cache Qt
-        id: cache-qt
-        uses: actions/cache@v1
-        with:
-          path: C:/Qt_cache
-          key: ${{ runner.os }}-QtCache
-
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          cached: ${{ steps.cache-qt.outputs.cache-hit }}
           version: "5.12.2"
           host: "windows"
           target: "desktop"
