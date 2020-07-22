@@ -18,9 +18,17 @@ jobs:
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1.0.0
 
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
           version: "5.12.2"
           host: "windows"
           target: "desktop"
@@ -57,7 +65,7 @@ jobs:
           cd "$build_folder"
           Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
           Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=$env:BOOST_ROOT_1_69_0/include -DBOOST_LIBRARYDIR=$env:BOOST_ROOT_1_69_0 .." -NoNewWindow -Wait
-          Start-Process msbuild -ArgumentList "CONCEAL-GUI.sln /p:Configuration=Release" -NoNewWindow -Wait
+          msbuild -ArgumentList "CONCEAL-GUI.sln /p:Configuration=Release" -NoNewWindow -Wait
   # build-ubuntu16:
   #   name: Ubuntu 16.04
   #   runs-on: ubuntu-16.04
