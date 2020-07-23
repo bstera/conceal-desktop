@@ -81,10 +81,9 @@ jobs:
            cd "$build_folder"
            cmake ../..
            make -j2
-           mkdir -p "$release_name"
-           cp "$app_name" "$release_name/"
-           echo "::set-output name=release_name::${release_name}.zip"
-           echo "::set-output name=artifact_path::$build_folder/$release_name"
+           tar -czf "$release_name".tar.gz "$app_name"
+           echo "::set-output name=release_name::${release_name}"
+           echo "::set-output name=artifact_path::$build_folder/$release_name.tar.gz"
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -115,10 +114,9 @@ jobs:
            cd "$build_folder"
            cmake ../..
            make -j2
-           mkdir -p "$release_name"
-           cp "$app_name" "$release_name/"
-           echo "::set-output name=release_name::${release_name}.zip"
-           echo "::set-output name=artifact_path::$build_folder/$release_name"
+           tar -czf "$release_name".tar.gz "$app_name"
+           echo "::set-output name=release_name::${release_name}"
+           echo "::set-output name=artifact_path::$build_folder/$release_name.tar.gz"
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -149,10 +147,9 @@ jobs:
            cd "$build_folder"
            cmake ../..
            make -j2
-           mkdir -p "$release_name"
-           cp "$app_name" "$release_name/"
-           echo "::set-output name=release_name::${release_name}.zip"
-           echo "::set-output name=artifact_path::$build_folder/$release_name"
+           tar -czf "$release_name".tar.gz "$app_name"
+           echo "::set-output name=release_name::${release_name}"
+           echo "::set-output name=artifact_path::$build_folder/$release_name.tar.gz"
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
         with:
