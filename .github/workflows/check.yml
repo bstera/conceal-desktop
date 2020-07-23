@@ -82,10 +82,7 @@ jobs:
            cmake ../..
            make -j2
            mkdir -p "$release_name"
-           exeFiles=()
-           for f in src/*; do [[ -x $f && -f $f ]] && exeFiles+=( "$f" ); done
-           strip "${exeFiles[@]}"
-           cp "${exeFiles[@]}" "$release_name/"
+           cp "$app_name" "$release_name/"
            echo "::set-output name=release_name::${release_name}.zip"
            echo "::set-output name=artifact_path::$build_folder/$release_name"
       - name: Upload To GH Artifacts
@@ -119,10 +116,7 @@ jobs:
            cmake ../..
            make -j2
            mkdir -p "$release_name"
-           exeFiles=()
-           for f in src/*; do [[ -x $f && -f $f ]] && exeFiles+=( "$f" ); done
-           strip "${exeFiles[@]}"
-           cp "${exeFiles[@]}" "$release_name/"
+           cp "$app_name" "$release_name/"
            echo "::set-output name=release_name::${release_name}.zip"
            echo "::set-output name=artifact_path::$build_folder/$release_name"
       - name: Upload To GH Artifacts
@@ -156,10 +150,7 @@ jobs:
            cmake ../..
            make -j2
            mkdir -p "$release_name"
-           exeFiles=()
-           for f in src/*; do [[ -x $f && -f $f ]] && exeFiles+=( "$f" ); done
-           strip "${exeFiles[@]}"
-           cp "${exeFiles[@]}" "$release_name/"
+           cp "$app_name" "$release_name/"
            echo "::set-output name=release_name::${release_name}.zip"
            echo "::set-output name=artifact_path::$build_folder/$release_name"
       - name: Upload To GH Artifacts
@@ -195,8 +186,8 @@ jobs:
           make -j2
           macdeployqt "$app_name"
           cpack
-          mv *.dmg "$release_name".dmg
-          zip "$release_name".zip "$release_name".dmg
+          mkdir "$release_name"
+          mv *.dmg "$release_name/"
           asset_path="./$build_folder/$release_name.zip"
           echo "::set-output name=release_name::${release_name}.zip"
           echo "::set-output name=artifact_path::$build_folder/$release_name"
