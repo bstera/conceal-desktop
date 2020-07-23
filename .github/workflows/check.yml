@@ -81,7 +81,7 @@ jobs:
           makensis ConcealWallet.nsi
           cd "$build_folder/$release_folder"
           Compress-Archive -Path Conceal-Setup.exe -DestinationPath "$release_name.zip"
-          $artifact_path = "./$build_folder/$release_folder/$release_name.zip"
+          $artifact_path = "$build_folder/$release_folder/$release_name.zip"
           echo "::set-output name=artifact_path::${artifact_path}"
 
       - name: Upload To GH Artifacts
