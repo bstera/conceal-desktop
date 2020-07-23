@@ -58,12 +58,12 @@ jobs:
           cd "$build_folder"
           Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
           Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=$env:BOOST_ROOT_1_69_0/include -DBOOST_LIBRARYDIR=$env:BOOST_ROOT_1_69_0 .." -NoNewWindow -Wait
-          msbuild CONCEAL-GUI.sln /p:Configuration=Release
-          cd src/Release
+          msbuild CONCEAL-GUI.sln /p:Configuration=Release /m:2
+          cd $release_folder
           mkdir "$release_name"
           cp *.exe "$release_name"
           echo "::set-output name=release_name::${release_name}"
-          echo "::set-output name=artifact_path::$build_folder/src/Release/$release_name"
+          echo "::set-output name=artifact_path::$build_folder/Release/$release_name"
 
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
