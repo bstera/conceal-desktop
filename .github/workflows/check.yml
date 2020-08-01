@@ -32,7 +32,6 @@ jobs:
         run: |
           Remove-Item cryptonote -Recurse -Force -ErrorAction Ignore
           git clone https://github.com/ConcealNetwork/conceal-core cryptonote
-          New-Item "$build_folder\$release_folder" -ItemType Directory
 
       - name: Build
         shell: powershell
@@ -59,6 +58,7 @@ jobs:
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           $filecontent = Get-Content CMakeLists.txt
           $filecontent -replace '^set\(CMAKE_PREFIX_PATH.+',"set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")" | Set-Content CMakeLists.txt
+          New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
           Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
           Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=$env:BOOST_ROOT_1_69_0/include -DBOOST_LIBRARYDIR=$env:BOOST_ROOT_1_69_0 .." -NoNewWindow -Wait
