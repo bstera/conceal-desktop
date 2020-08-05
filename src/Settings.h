@@ -56,10 +56,10 @@ public:
   QString getLanguage() const;
   int getFontSize() const;
   bool isStartOnLoginEnabled() const;
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
   bool isMinimizeToTrayEnabled() const;
   bool isCloseToTrayEnabled() const;
-#endif
+// #endif
 
   void setWalletFile(const QString& _file);
   void setEncrypted(bool _encrypted);
@@ -77,10 +77,10 @@ public:
   void setRpcNodesList(const QStringList& _RpcNodesList);
   void setMiningPoolList(const QStringList& _miningPoolList);
 
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
   void setMinimizeToTrayEnabled(bool _enable);
   void setCloseToTrayEnabled(bool _enable);
-#endif
+// #endif
 
 private:
   QJsonObject m_settings;

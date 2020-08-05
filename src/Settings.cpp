@@ -468,7 +468,7 @@ bool Settings::isStartOnLoginEnabled() const
   return res;
 }
 
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
 bool Settings::isMinimizeToTrayEnabled() const
 {
   return m_settings.contains("minimizeToTray") ? m_settings.value("minimizeToTray").toBool() : false;
@@ -478,7 +478,7 @@ bool Settings::isCloseToTrayEnabled() const
 {
   return m_settings.contains("closeToTray") ? m_settings.value("closeToTray").toBool() : false;
 }
-#endif
+// #endif
 
 void Settings::setWalletFile(const QString &_file)
 {
@@ -595,7 +595,7 @@ void Settings::setMiningPoolList(const QStringList &_miningPoolList)
   saveSettings();
 }
 
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
 void Settings::setMinimizeToTrayEnabled(bool _enable)
 {
   if (isMinimizeToTrayEnabled() != _enable)
@@ -613,7 +613,7 @@ void Settings::setCloseToTrayEnabled(bool _enable)
     saveSettings();
   }
 }
-#endif
+// #endif
 
 void Settings::saveSettings() const
 {

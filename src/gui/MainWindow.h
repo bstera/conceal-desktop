@@ -102,13 +102,12 @@ public:
 
 private:
   void installDockHandler();
-#elif defined(Q_OS_WIN)
+#endif
 protected:
   void changeEvent(QEvent* _event) Q_DECL_OVERRIDE;
 
 private:
   void trayActivated(QSystemTrayIcon::ActivationReason _reason);
-#endif
 };
 
 }

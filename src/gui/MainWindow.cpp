@@ -15,6 +15,9 @@
 #include <QSystemTrayIcon>
 #include <QTimer>
 #include <QThread>
+#include <QAction>
+#include <QMenu>
+
 #include <boost/lexical_cast.hpp>
 #include <boost/program_options.hpp>
 #include <boost/algorithm/string.hpp>
@@ -146,16 +149,42 @@ void MainWindow::connectToSignals()
 
 void MainWindow::initUi()
 {
-  showMaximized();
+  qDebug() << "here";
+  // showMaximized();
   setRemoteWindowTitle();
 
-#ifdef Q_OS_WIN32
+  qDebug() << "ici";
+// #ifdef Q_OS_WIN32
   if (QSystemTrayIcon::isSystemTrayAvailable())
   {
-    m_trayIcon = new QSystemTrayIcon(QPixmap(":images/cryptonote"), this);
+    qDebug() << "lala";
+
+    
+    QAction* minimizeAction = new QAction(tr("Mi&nimize"), this);
+    connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
+
+    QAction* maximizeAction = new QAction(tr("Ma&ximize"), this);
+    connect(maximizeAction, &QAction::triggered, this, &QWidget::showMaximized);
+
+    QAction* restoreAction = new QAction(tr("&Restore"), this);
+    connect(restoreAction, &QAction::triggered, this, &QWidget::showNormal);
+
+    QAction* quitAction = new QAction(tr("&Quit"), this);
+    connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+
+    QMenu* trayIconMenu = new QMenu(this);
+    // trayIconMenu->addAction(minimizeAction);
+    // trayIconMenu->addAction(maximizeAction);
+    trayIconMenu->addAction(restoreAction);
+    trayIconMenu->addSeparator();
+    trayIconMenu->addAction(quitAction);
+
+    m_trayIcon = new QSystemTrayIcon(this);
+    m_trayIcon->setIcon(QPixmap(":/images/cryptonote"));
+    m_trayIcon->setContextMenu(trayIconMenu);
     connect(m_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::trayActivated);
   }
-#endif
+// #endif
   m_ui->m_aboutCryptonoteAction->setText(QString(tr("About %1 Wallet")).arg(CurrencyAdapter::instance().getCurrencyDisplayName()));
 
   m_ui->m_overviewFrame->hide();
@@ -171,17 +200,18 @@ void MainWindow::initUi()
   installDockHandler();
 #endif
 
-#ifndef Q_OS_WIN
+// #ifndef Q_OS_WIN
   m_ui->m_minimizeToTrayAction->deleteLater();
   m_ui->m_closeToTrayAction->deleteLater();
-#endif
+// #endif
 
   OptimizationManager *optimizationManager = new OptimizationManager(this);
 }
 
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
 void MainWindow::minimizeToTray(bool _on)
 {
+  qDebug() << _on << "minimize to tray";
   if (_on)
   {
     hide();
@@ -191,10 +221,10 @@ void MainWindow::minimizeToTray(bool _on)
   {
     showNormal();
     activateWindow();
-    m_trayIcon->hide();
+    
   }
 }
-#endif
+// #endif
 
 void MainWindow::scrollToTransaction(const QModelIndex &_index)
 {
@@ -227,7 +257,7 @@ void MainWindow::restoreFromDock()
 
 void MainWindow::closeEvent(QCloseEvent *_event)
 {
-#ifdef Q_OS_WIN
+#ifndef QT_NO_SYSTEMTRAYICON
   if (m_isAboutToQuit)
   {
     QMainWindow::closeEvent(_event);
@@ -253,15 +283,17 @@ void MainWindow::closeEvent(QCloseEvent *_event)
   QMainWindow::closeEvent(_event);
 }
 
-#ifdef Q_OS_WIN
+#ifndef QT_NO_SYSTEMTRAYICON
 void MainWindow::changeEvent(QEvent *_event)
 {
   QMainWindow::changeEvent(_event);
+  // qDebug() << "changeEvent";
   if (!QSystemTrayIcon::isSystemTrayAvailable())
   {
     QMainWindow::changeEvent(_event);
     return;
   }
+  // qDebug() << "systemtrayAvailable";
   switch (_event->type())
   {
   case QEvent::LocaleChange:
@@ -275,6 +307,7 @@ void MainWindow::changeEvent(QEvent *_event)
     if (Settings::instance().isMinimizeToTrayEnabled())
     {
       minimizeToTray(isMinimized());
+      qDebug() << "enabled";
     }
     break;
   }
@@ -571,16 +604,16 @@ void MainWindow::setStartOnLogin(bool _on)
 
 void MainWindow::setMinimizeToTray(bool _on)
 {
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
   Settings::instance().setMinimizeToTrayEnabled(_on);
-#endif
+// #endif
 }
 
 void MainWindow::setCloseToTray(bool _on)
 {
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
   Settings::instance().setCloseToTrayEnabled(_on);
-#endif
+// #endif
 }
 
 void MainWindow::about()
@@ -1014,12 +1047,14 @@ void MainWindow::showQRCode(const QString &_address)
   }
 }
 
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason _reason)
 {
+  qDebug() << "trayActivated";
   showNormal();
-  m_trayIcon->hide();
+  
+qDebug() << "hide()" ;
 }
-#endif
+// #endif
 
 } // namespace WalletGui

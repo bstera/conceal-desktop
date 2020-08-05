@@ -328,7 +328,7 @@ namespace WalletGui
       m_ui->b2_autoOptimizeButton->setText(tr("CLICK TO ENABLE"));
     }
 
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
     /* Set minimize to tray button status */
     if (!Settings::instance().isMinimizeToTrayEnabled())
     {
@@ -348,7 +348,7 @@ namespace WalletGui
     {
       m_ui->b2_closeToTrayButton->setText(tr("CLICK TO DISABLE"));
     }
-#endif
+// #endif
 
     dashboardClicked();
     depositParamsChanged();
@@ -2037,7 +2037,7 @@ namespace WalletGui
 
   void OverviewFrame::minToTrayClicked()
   {
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
     if (!Settings::instance().isMinimizeToTrayEnabled())
     {
       Settings::instance().setMinimizeToTrayEnabled(true);
@@ -2048,12 +2048,12 @@ namespace WalletGui
       Settings::instance().setMinimizeToTrayEnabled(false);
       m_ui->b2_minToTrayButton->setText(tr("CLICK TO ENABLE"));
     }
-#endif
+// #endif
   }
 
   void OverviewFrame::closeToTrayClicked()
   {
-#ifdef Q_OS_WIN
+// #ifdef Q_OS_WIN
     if (!Settings::instance().isCloseToTrayEnabled())
     {
       Settings::instance().setCloseToTrayEnabled(true);
@@ -2064,7 +2064,7 @@ namespace WalletGui
       Settings::instance().setCloseToTrayEnabled(false);
       m_ui->b2_closeToTrayButton->setText(tr("CLICK TO ENABLE"));
     }
-#endif
+// #endif
   }
 
 } // namespace WalletGui
