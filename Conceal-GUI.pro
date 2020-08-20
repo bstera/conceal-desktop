@@ -1084,3 +1084,5 @@ DISTFILES += \
     src/images/logo-proper.png \
     src/images/qr.png
 RC_FILE = conceal.rc
+
+ICON = src/images/cryptonote.icns

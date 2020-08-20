@@ -165,7 +165,7 @@ void MainWindow::initUi()
     m_trayIcon = new QSystemTrayIcon(this);
     m_trayIcon->setIcon(QPixmap(":/images/cryptonote"));
     m_trayIcon->setContextMenu(trayIconMenu);
-    connect(m_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::trayActivated);
+    // connect(m_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::trayActivated);
   }
 #endif
   showMaximized();
