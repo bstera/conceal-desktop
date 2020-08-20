@@ -343,4 +343,10 @@ elseif (WIN32)
   set(CPACK_GENERATOR ZIP)
 endif (APPLE)
 
+if(APPLE)
+    set(ICON src/images/cryptonote.icns)
+    set_source_files_properties(${ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    list(APPEND RESOURCES ${ICON})
+endif()
+
 include(CPack)
