@@ -1036,32 +1036,9 @@ void MainWindow::showQRCode(const QString &_address)
 #ifndef QT_NO_SYSTEMTRAYICON
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason _reason)
 {
-  switch (_reason)
+  if (_reason == QSystemTrayIcon::Trigger)
   {
-    case QSystemTrayIcon::Unknown:
-      qDebug() << "Unknown";
-      break;
-
-    case QSystemTrayIcon::Context:
-      qDebug() << "Context";
-      break;
-
-    case QSystemTrayIcon::DoubleClick:
-      qDebug() << "DoubleClick";
-      break;
-
-    case QSystemTrayIcon::Trigger:
-      qDebug() << "Trigger";
-      restoreFromTray();
-      break;
-
-    case QSystemTrayIcon::MiddleClick:
-      qDebug() << "MiddleClick";
-      break;
-
-    default:
-      qDebug() << "default";
-      break;
+    restoreFromTray();
   }
 }
 #endif
