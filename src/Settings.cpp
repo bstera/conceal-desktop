@@ -104,6 +104,11 @@ void Settings::load()
   if (!m_settings.contains("tracking")) {
        m_settings.insert("tracking", false);
   }
+
+  if (!m_settings.contains("fontSize"))
+  {
+    m_settings.insert("fontSize", 1);
+  }
 }
 
 QString Settings::getVersion() const
@@ -468,7 +473,7 @@ bool Settings::isStartOnLoginEnabled() const
   return res;
 }
 
-// #ifdef Q_OS_WIN
+#ifndef QT_NO_SYSTEMTRAYICON
 bool Settings::isMinimizeToTrayEnabled() const
 {
   return m_settings.contains("minimizeToTray") ? m_settings.value("minimizeToTray").toBool() : false;
@@ -478,7 +483,7 @@ bool Settings::isCloseToTrayEnabled() const
 {
   return m_settings.contains("closeToTray") ? m_settings.value("closeToTray").toBool() : false;
 }
-// #endif
+#endif
 
 void Settings::setWalletFile(const QString &_file)
 {
@@ -595,7 +600,7 @@ void Settings::setMiningPoolList(const QStringList &_miningPoolList)
   saveSettings();
 }
 
-// #ifdef Q_OS_WIN
+#ifndef QT_NO_SYSTEMTRAYICON
 void Settings::setMinimizeToTrayEnabled(bool _enable)
 {
   if (isMinimizeToTrayEnabled() != _enable)
@@ -613,7 +618,7 @@ void Settings::setCloseToTrayEnabled(bool _enable)
     saveSettings();
   }
 }
-// #endif
+#endif
 
 void Settings::saveSettings() const
 {

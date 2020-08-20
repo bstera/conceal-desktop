@@ -50,6 +50,9 @@ public Q_SLOTS:
   void deleteABClicked();
   void payToABClicked();
 
+protected:
+  void resizeEvent(QResizeEvent *event) override;
+
 private:
   QNetworkAccessManager m_networkManager;
   QScopedPointer<Ui::OverviewFrame> m_ui;
@@ -62,8 +65,7 @@ private:
   ExchangeProvider *m_exchangeProvider;
   QString remote_node_fee_address;
   quint64 totalBalance = 0;
-  float ccxusd = 0;
-  float ccxeur = 0;
+  float ccxfiat = 0;
   QString wallet_address;
   quint64 remote_node_fee;
   quint64 m_actualBalance = 0;
