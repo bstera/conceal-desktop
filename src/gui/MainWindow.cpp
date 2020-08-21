@@ -165,7 +165,9 @@ void MainWindow::initUi()
     m_trayIcon = new QSystemTrayIcon(this);
     m_trayIcon->setIcon(QPixmap(":/images/cryptonote"));
     m_trayIcon->setContextMenu(trayIconMenu);
-    // connect(m_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::trayActivated);
+#ifndef Q_OS_MAC
+    connect(m_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::trayActivated);
+#endif
   }
 #endif
   showMaximized();
@@ -354,15 +356,8 @@ void MainWindow::delay()
 
 void MainWindow::createWallet()
 {
-
-  QString filePath = QFileDialog::getSaveFileName(this, tr("New wallet file"),
-
-#ifdef Q_OS_WIN
-                                                  QApplication::applicationDirPath(),
-#else
-                                                  QDir::homePath(),
-#endif
-                                                  tr("Wallets (*.wallet)"));
+  QString filePath = QFileDialog::getSaveFileName(
+      this, tr("New wallet file"), QDir::homePath(), tr("Wallets (*.wallet)"));
 
   if (!filePath.isEmpty() && !filePath.endsWith(".wallet"))
   {
