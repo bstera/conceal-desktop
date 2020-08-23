@@ -5,7 +5,11 @@
 
 #include "SplashScreen.h"
 
+#ifdef Q_OS_WIN
+#include <QtCore/qt_windows.h>
+#else
 #include <time.h>
+#endif
 
 #include <QApplication>
 #include <QCoreApplication>
