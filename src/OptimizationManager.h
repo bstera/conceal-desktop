@@ -7,6 +7,8 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
+#include <QtCore>
 
 #include "CryptoNoteWrapper.h"
 #include "CurrencyAdapter.h"

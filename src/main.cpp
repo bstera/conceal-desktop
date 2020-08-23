@@ -7,18 +7,23 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <locale.h>
+
 #include <QApplication>
-#include <QCommandLineParser>
-#include <QDesktopWidget>
+#include <QCoreApplication>
+#include <QDir>
 #include <QLocale>
 #include <QLockFile>
 #include <QMessageBox>
+#include <QObject>
 #include <QRegularExpression>
-#include <QStyle>
+#include <QString>
 #include <QStyleFactory>
+#include <QtCore>
 
 #include "CommandLineParser.h"
 #include "CurrencyAdapter.h"
+#include "IWalletLegacy.h"
 #include "LogFileWatcher.h"
 #include "LoggerAdapter.h"
 #include "NodeAdapter.h"

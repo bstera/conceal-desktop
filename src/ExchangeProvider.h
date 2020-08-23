@@ -6,8 +6,10 @@
 
 #pragma once
 
-#include <QObject>
+#include <QByteArrayData>
 #include <QNetworkAccessManager>
+#include <QObject>
+#include <QString>
 
 namespace WalletGui {
 

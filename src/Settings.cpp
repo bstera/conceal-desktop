@@ -6,18 +6,24 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "Settings.h"
+
+#include <stddef.h>
+
 #include <QCoreApplication>
 #include <QFile>
+#include <QIODevice>
 #include <QJsonArray>
-#include <QLocale>
 #include <QJsonDocument>
-#include <QSettings>
+#include <QJsonValue>
+#include <QList>
+#include <QLocale>
 #include <QStandardPaths>
-#include <QTextCodec>
-#include <Common/Util.h>
+#include <QVariant>
+#include <string>
+
 #include "CommandLineParser.h"
 #include "CurrencyAdapter.h"
-#include "Settings.h"
 
 namespace WalletGui
 {

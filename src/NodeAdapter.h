@@ -7,17 +7,29 @@
 
 #pragma once
 
-#include <QObject>
-#include <QThread>
-#include <QNetworkAccessManager>
+#include <CryptoNoteCore/CoreConfig.h>
 #include <INode.h>
 #include <IWalletLegacy.h>
+#include <P2p/NetNodeConfig.h>
+#include <stddef.h>
+#include <stdint.h>
+
+#include <QDateTime>
+#include <QNetworkAccessManager>
+#include <QObject>
+#include <QString>
+#include <QThread>
+#include <QtCore>
+#include <string>
 
 #include "CryptoNoteWrapper.h"
+
+class QNetworkReply;
 
 namespace CryptoNote {
 
 class Currency;
+class IWalletLegacy;
 
 }
 

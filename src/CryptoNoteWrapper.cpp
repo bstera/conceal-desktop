@@ -7,19 +7,38 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "CryptoNoteWrapper.h"
-#include "CryptoNoteCore/CryptoNoteBasicImpl.h"
-#include "CryptoNoteCore/CryptoNoteFormatUtils.h"
-#include "CryptoNoteCore/Currency.h"
-#include "NodeRpcProxy/NodeRpcProxy.h"
-#include "CryptoNoteCore/CoreConfig.h"
-#include "P2p/NetNodeConfig.h"
-#include "CryptoNoteCore/Core.h"
-#include "CryptoNoteProtocol/CryptoNoteProtocolHandler.h"
-#include "InProcessNode/InProcessNode.h"
-#include "P2p/NetNode.h"
-#include "WalletLegacy/WalletLegacy.h"
-#include "Logging/LoggerManager.h"
-#include "System/Dispatcher.h"
+
+#include <algorithm>
+#include <boost/variant/get.hpp>
+#include <cstdint>
+#include <future>
+#include <initializer_list>
+#include <iterator>
+#include <memory>
+#include <ostream>
+#include <stdexcept>
+#include <vector>
+
+#include <CryptoNote.h>
+#include <CryptoNoteConfig.h>
+#include <CryptoNoteCore/Checkpoints.h>
+#include <CryptoNoteCore/Core.h>
+#include <CryptoNoteCore/CoreConfig.h>
+#include <CryptoNoteCore/Currency.h>
+#include <CryptoNoteCore/MinerConfig.h>
+#include <CryptoNoteCore/TransactionExtra.h>
+#include <CryptoNoteProtocol/CryptoNoteProtocolHandler.h>
+#include <CryptoTypes.h>
+#include <INode.h>
+#include <IWalletLegacy.h>
+#include <InProcessNode/InProcessNode.h>
+#include <Logging/LoggerManager.h>
+#include <NodeRpcProxy/NodeRpcProxy.h>
+#include <P2p/NetNode.h>
+#include <P2p/NetNodeConfig.h>
+#include <System/Dispatcher.h>
+#include <Wallet/WalletErrors.h>
+#include <WalletLegacy/WalletLegacy.h>
 
 namespace WalletGui {
 

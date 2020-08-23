@@ -6,16 +6,23 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "UpdateManager.h"
-#include "Settings.h"
 
+#include <QByteArray>
 #include <QDesktopServices>
-#include <QApplication>
+#include <QList>
 #include <QMessageBox>
-
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QStringList>
+#include <QUrl>
+#include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <vector>
 #include <iterator>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include "Settings.h"
 
 using namespace WalletGui;
 

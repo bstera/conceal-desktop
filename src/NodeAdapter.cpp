@@ -5,23 +5,43 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QCoreApplication>
-#include <QDateTime>
-#include <QDir>
-#include <QTimer>
-#include <QUrl>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QNetworkReply>
-#include <QStringList>
+#include "NodeAdapter.h"
+
+#include <CryptoNoteConfig.h>
 #include <CryptoNoteCore/CoreConfig.h>
 #include <P2p/NetNodeConfig.h>
 #include <Wallet/WalletErrors.h>
+#include <bits/exception.h>
+
+#include <QByteArray>
+#include <QCoreApplication>
+#include <QDateTime>
+#include <QDir>
+#include <QEventLoop>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QStringList>
+#include <QTimer>
+#include <QUrl>
+#include <algorithm>
+#include <boost/any.hpp>
+#include <boost/program_options/variables_map.hpp>
+#include <system_error>
+#include <type_traits>
+#include <utility>
+#include <vector>
+
 #include "CurrencyAdapter.h"
 #include "LoggerAdapter.h"
-#include "NodeAdapter.h"
 #include "Settings.h"
+
+namespace CryptoNote {
+class IWalletLegacy;
+}  // namespace CryptoNote
 
 namespace WalletGui
 {

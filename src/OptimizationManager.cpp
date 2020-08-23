@@ -5,17 +5,13 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QTime>
-#include <QTimer>
+#include "OptimizationManager.h"
+
 #include <QThread>
 #include <QTimerEvent>
-#include <QMessageBox>
 
-#include "OptimizationManager.h"
-#include "WalletAdapter.h"
-#include "gui/WalletEvents.h"
-#include "NodeAdapter.h"
 #include "Settings.h"
+#include "WalletAdapter.h"
 
 namespace WalletGui
 {

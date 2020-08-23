@@ -8,11 +8,15 @@
 #ifndef UPDATE_H
 #define UPDATE_H
 
-#include <QObject>
+#include <QByteArrayData>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QObject>
+#include <QString>
 #include <QUrl>
+
+class QNetworkReply;
 
 class Updater : public QObject
 {

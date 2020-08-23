@@ -1,10 +1,13 @@
 #ifndef TRANSLATORMANAGER_H
 #define TRANSLATORMANAGER_H
 
-#include <QObject>
 #include <QMap>
-#include <QTranslator>
 #include <QMutex>
+#include <QObject>
+#include <QString>
+#include <QTranslator>
+
+class QTranslator;
 
 typedef QMap<QString, QTranslator*> TranslatorMap;
 

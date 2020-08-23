@@ -7,6 +7,14 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "LoggerAdapter.h"
+
+#include <Common/JsonValue.h>
+#include <Logging/ILogger.h>
+#include <stdint.h>
+
+#include <QDir>
+#include <QString>
+
 #include "Settings.h"
 
 namespace WalletGui {

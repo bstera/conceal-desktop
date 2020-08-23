@@ -19,6 +19,8 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
+#include <QtCore>
 
 class QFile;
 class QFileSystemWatcher;

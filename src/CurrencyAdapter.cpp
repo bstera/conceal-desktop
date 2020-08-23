@@ -7,7 +7,15 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "CurrencyAdapter.h"
-#include "CryptoNoteWalletConfig.h"
+
+#include <CryptoNote.h>
+#include <CryptoNoteConfig.h>
+#include <CryptoNoteWalletConfig.h>
+#include <bits/exception.h>
+
+#include <QChar>
+#include <QCharRef>
+
 #include "LoggerAdapter.h"
 #include "Settings.h"
 

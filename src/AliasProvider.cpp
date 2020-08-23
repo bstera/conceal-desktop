@@ -6,14 +6,18 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "AliasProvider.h"
+
+#include <QByteArray>
+#include <QIODevice>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonValue>
 #include <QNetworkReply>
-#include <QStringList>
+#include <QNetworkRequest>
 #include <QUrl>
-
-#include "AliasProvider.h"
+#include <QtCore>
 
 namespace WalletGui {
 

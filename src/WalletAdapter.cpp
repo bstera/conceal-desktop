@@ -4,21 +4,29 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "WalletAdapter.h"
+
+#include <CryptoNoteConfig.h>
+#include <CryptoTypes.h>
+#include <IWalletLegacy.h>
+#include <Wallet/LegacyKeysImporter.h>
+#include <Wallet/WalletErrors.h>
+
 #include <QCoreApplication>
 #include <QDateTime>
-#include <QLocale>
+#include <QFile>
 #include <QVector>
-#include <QMessageBox>
-#include <Common/Base58.h>
-#include <Common/Util.h>
-#include <Wallet/WalletErrors.h>
-#include <Wallet/LegacyKeysImporter.h>
-#include "Common/StringTools.h"
-#include "CryptoNoteProtocol/CryptoNoteProtocolHandler.h"
+#include <limits>
+#include <stdexcept>
+#include <string>
+
 #include "NodeAdapter.h"
 #include "Settings.h"
-#include "WalletAdapter.h"
-#include <ITransfersContainer.h>
+
+namespace CryptoNote
+{
+struct AccountKeys;
+}  // namespace CryptoNote
 
 namespace WalletGui {
 

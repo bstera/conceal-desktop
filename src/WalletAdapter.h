@@ -8,14 +8,24 @@
 
 #pragma once
 
+#include <IWalletLegacy.h>
+#include <stdint.h>
+
 #include <QMutex>
 #include <QObject>
+#include <QString>
 #include <QTimer>
-
+#include <QVector>
+#include <QtCore>
 #include <atomic>
 #include <fstream>
+#include <system_error>
+#include <vector>
 
-#include <IWalletLegacy.h>
+namespace CryptoNote
+{
+struct AccountKeys;
+}  // namespace CryptoNote
 
 namespace WalletGui {
 

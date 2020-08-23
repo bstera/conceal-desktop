@@ -9,6 +9,8 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
+#include <QtCore>
 
 namespace WalletGui {
 

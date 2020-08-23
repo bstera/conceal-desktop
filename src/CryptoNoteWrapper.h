@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include <stddef.h>
+#include <stdint.h>
+
 #include <functional>
 #include <memory>
 #include <string>

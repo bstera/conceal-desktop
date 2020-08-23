@@ -1,8 +1,14 @@
-#include <QApplication>
-#include <QLocale>
-#include <QTranslator>
-#include "Settings.h"
 #include "TranslatorManager.h"
+
+#include <QApplication>
+#include <QDir>
+#include <QList>
+#include <QLocale>
+#include <QMutex>
+#include <QStringList>
+#include <QTranslator>
+
+#include "Settings.h"
 
 using namespace WalletGui;
 

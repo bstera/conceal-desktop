@@ -16,12 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with Karbovanets.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "LogFileWatcher.h"
+
 #include <QFile>
-#include <QFileSystemWatcher>
 #include <QTextStream>
 #include <QTimerEvent>
-
-#include "LogFileWatcher.h"
 
 namespace WalletGui {
 

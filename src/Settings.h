@@ -10,6 +10,9 @@
 #include <QDir>
 #include <QJsonObject>
 #include <QObject>
+#include <QString>
+#include <QStringList>
+#include <QtCore>
 
 namespace WalletGui {
 

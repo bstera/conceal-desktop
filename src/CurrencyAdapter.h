@@ -8,9 +8,12 @@
 
 #pragma once
 
-#include <QString>
+#include <CryptoNoteCore/Currency.h>
+#include <stdint.h>
 
-#include "CryptoNoteCore/Currency.h"
+#include <QString>
+#include <QtGlobal>
+#include <string>
 
 namespace WalletGui {
 

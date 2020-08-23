@@ -7,8 +7,12 @@
 
 #pragma once
 
-#include <QObject>
+#include <QByteArrayData>
 #include <QNetworkAccessManager>
+#include <QObject>
+#include <QString>
+
+class QJsonObject;
 
 namespace WalletGui {
 

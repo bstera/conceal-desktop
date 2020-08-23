@@ -8,8 +8,12 @@
 
 #pragma once
 
+#include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QObject>
+#include <QString>
+#include <QStringList>
+#include <QtCore>
 
 namespace WalletGui {
 

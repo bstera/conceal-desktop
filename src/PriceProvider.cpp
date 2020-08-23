@@ -5,14 +5,16 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QJsonArray>
+#include "PriceProvider.h"
+
+#include <QByteArray>
+#include <QIODevice>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonValueRef>
 #include <QNetworkReply>
-#include <QStringList>
+#include <QNetworkRequest>
 #include <QUrl>
-
-#include "PriceProvider.h"
 
 namespace WalletGui
 {
