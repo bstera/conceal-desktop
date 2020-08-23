@@ -17,7 +17,6 @@
 #include <QMetaEnum>
 #include <QMetaObject>
 #include <QTextStream>
-#include <ext/alloc_traits.h>
 #include <limits>
 #include <string>
 #include <utility>

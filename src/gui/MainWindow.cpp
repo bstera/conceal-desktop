@@ -15,7 +15,6 @@
 #include <CryptoNoteCore/Account.h>
 #include <CryptoNoteCore/CryptoNoteTools.h>
 #include <CryptoTypes.h>
-#include <bits/exception.h>
 #include <crypto/crypto.h>
 #include <ctype.h>
 #include <stdint.h>
@@ -44,6 +43,7 @@
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/type_index/type_index_facade.hpp>
 #include <boost/utility/value_init.hpp>
+#include <stdexcept>
 #include <string>
 #include <vector>
 

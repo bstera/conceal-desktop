@@ -16,7 +16,6 @@
 #include <CryptoTypes.h>
 #include <IWalletLegacy.h>
 #include <QtCore/qglobal.h>
-#include <bits/exception.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -68,6 +67,7 @@
 #include <QVariant>
 #include <QVector>
 #include <QtCore>
+#include <stdexcept>
 #include <string>
 #include <vector>
 

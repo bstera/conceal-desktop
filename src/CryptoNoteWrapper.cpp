@@ -8,17 +8,6 @@
 
 #include "CryptoNoteWrapper.h"
 
-#include <algorithm>
-#include <boost/variant/get.hpp>
-#include <cstdint>
-#include <future>
-#include <initializer_list>
-#include <iterator>
-#include <memory>
-#include <ostream>
-#include <stdexcept>
-#include <vector>
-
 #include <CryptoNote.h>
 #include <CryptoNoteConfig.h>
 #include <CryptoNoteCore/Checkpoints.h>
@@ -39,6 +28,16 @@
 #include <System/Dispatcher.h>
 #include <Wallet/WalletErrors.h>
 #include <WalletLegacy/WalletLegacy.h>
+
+#include <algorithm>
+#include <cstdint>
+#include <future>
+#include <initializer_list>
+#include <iterator>
+#include <memory>
+#include <ostream>
+#include <stdexcept>
+#include <vector>
 
 namespace WalletGui {
 

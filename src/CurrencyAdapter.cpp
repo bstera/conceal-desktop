@@ -11,10 +11,10 @@
 #include <CryptoNote.h>
 #include <CryptoNoteConfig.h>
 #include <CryptoNoteWalletConfig.h>
-#include <bits/exception.h>
 
 #include <QChar>
 #include <QCharRef>
+#include <stdexcept>
 
 #include "LoggerAdapter.h"
 #include "Settings.h"

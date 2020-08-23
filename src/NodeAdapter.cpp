@@ -11,7 +11,6 @@
 #include <CryptoNoteCore/CoreConfig.h>
 #include <P2p/NetNodeConfig.h>
 #include <Wallet/WalletErrors.h>
-#include <bits/exception.h>
 
 #include <QByteArray>
 #include <QCoreApplication>
@@ -30,6 +29,7 @@
 #include <algorithm>
 #include <boost/any.hpp>
 #include <boost/program_options/variables_map.hpp>
+#include <stdexcept>
 #include <system_error>
 #include <type_traits>
 #include <utility>
