@@ -7,19 +7,29 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QClipboard>
-#include <QMessageBox>
+#include "ReceiveFrame.h"
 
 #include <Common/Base58.h>
-#include "Common/StringTools.h"
-#include "ReceiveFrame.h"
-#include "CryptoNoteCore/Account.h"
-#include "Mnemonics/electrum-words.h"
+#include <Common/StringTools.h>
+#include <CryptoNote.h>
+#include <CryptoNoteCore/Account.h>
+#include <CryptoTypes.h>
+#include <Mnemonics/electrum-words.h>
+#include <crypto/crypto.h>
+
+#include <QApplication>
+#include <QClipboard>
+#include <QGroupBox>
+#include <QMessageBox>
+#include <QTextBrowser>
+#include <boost/utility/value_init.hpp>
+#include <string>
+
 #include "CurrencyAdapter.h"
 #include "WalletAdapter.h"
 #include "ui_receiveframe.h"
 
-#include <string>
+class QWidget;
 
 namespace WalletGui {
 

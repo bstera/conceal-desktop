@@ -9,8 +9,15 @@
 
 #pragma once
 
+#include <QByteArrayData>
 #include <QDataWidgetMapper>
 #include <QDialog>
+#include <QModelIndex>
+#include <QScopedPointer>
+#include <QString>
+
+class QObject;
+class QWidget;
 
 namespace Ui {
 class MessageDetailsDialog;

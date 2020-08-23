@@ -7,13 +7,20 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QFontDatabase>
+#include "TransactionFrame.h"
+
+#include <QFontMetrics>
+#include <QLabel>
+#include <QModelIndex>
+#include <QStyledItemDelegate>
+#include <QVariant>
+#include <QWidget>
 
 #include "MainWindow.h"
-#include "TransactionFrame.h"
 #include "TransactionsModel.h"
-#include "OverviewFrame.h"
 #include "ui_transactionframe.h"
+
+class QMouseEvent;
 
 namespace WalletGui {
 

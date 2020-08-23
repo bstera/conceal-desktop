@@ -10,6 +10,8 @@
 #pragma once
 
 #include <QSortFilterProxyModel>
+#include <QString>
+#include <QtCore>
 
 namespace WalletGui {
 

@@ -4,24 +4,76 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "OverviewFrame.h"
+
+#include <Common/Base58.h>
+#include <Common/DnsTools.h>
+#include <Common/StringTools.h>
+#include <CryptoNote.h>
+#include <CryptoNoteConfig.h>
+#include <CryptoNoteCore/CryptoNoteBasicImpl.h>
+#include <CryptoNoteCore/CryptoNoteTools.h>
+#include <CryptoTypes.h>
+#include <IWalletLegacy.h>
+#include <QtCore/qglobal.h>
+#include <bits/exception.h>
+#include <stddef.h>
+#include <stdint.h>
+
+#include <QAbstractItemModel>
+#include <QApplication>
+#include <QCheckBox>
+#include <QClipboard>
+#include <QComboBox>
+#include <QCoreApplication>
+#include <QDateTime>
+#include <QDesktopServices>
+#include <QDialog>
+#include <QDir>
+#include <QDoubleSpinBox>
+#include <QEventLoop>
+#include <QFile>
+#include <QFileDialog>
+#include <QFont>
+#include <QFontDatabase>
+#include <QGroupBox>
+#include <QHeaderView>
+#include <QIODevice>
+#include <QJsonObject>
+#include <QJsonValueRef>
+#include <QLabel>
+#include <QLineEdit>
+#include <QList>
+#include <QLocale>
+#include <QMessageBox>
+#include <QModelIndexList>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QObject>
+#include <QPixmap>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QSize>
+#include <QSlider>
+#include <QSortFilterProxyModel>
+#include <QSpinBox>
+#include <QStyleOptionViewItem>
+#include <QStyledItemDelegate>
+#include <QTextBrowser>
+#include <QTextCursor>
+#include <QTextEdit>
+#include <QTime>
+#include <QTreeView>
+#include <QUrl>
+#include <QVariant>
+#include <QVector>
+#include <QtCore>
+#include <string>
+#include <vector>
+
 #include "AddressBookDialog.h"
 #include "AddressBookModel.h"
 #include "AddressProvider.h"
-#include "Common/CommandLine.h"
-#include "Common/DnsTools.h"
-#include "Common/PathTools.h"
-#include "Common/SignalHandler.h"
-#include "Common/StringTools.h"
-#include "Common/Util.h"
-#include "Common/Base58.h"
-#include "Common/Util.h"
-#include "crypto/hash.h"
-#include "CryptoNoteCore/CryptoNoteTools.h"
-#include "CryptoNoteCore/Account.h"
-#include "CryptoNoteCore/CryptoNoteBasic.h"
-#include "CryptoNoteCore/CryptoNoteBasicImpl.h"
-#include "CryptoNoteCore/CryptoNoteFormatUtils.h"
-#include "CryptoNoteProtocol/CryptoNoteProtocolHandler.h"
 #include "CurrencyAdapter.h"
 #include "DepositDetailsDialog.h"
 #include "DepositListModel.h"
@@ -32,13 +84,10 @@
 #include "MessagesModel.h"
 #include "NewAddressDialog.h"
 #include "NodeAdapter.h"
-#include "OverviewFrame.h"
 #include "PasswordDialog.h"
 #include "PriceProvider.h"
-#include "QRLabel.h"
 #include "RecentTransactionsModel.h"
 #include "Settings.h"
-#include "SortedMessagesModel.h"
 #include "SortedTransactionsModel.h"
 #include "TransactionDetailsDialog.h"
 #include "TransactionFrame.h"
@@ -47,26 +96,9 @@
 #include "VisibleMessagesModel.h"
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
-#include "WalletLegacy/WalletHelper.h"
-
-#include <QAction>
-#include <QApplication>
-#include <QClipboard>
-#include <QDesktopServices>
-#include <QFont>
-#include <QFontDatabase>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QMenu>
-#include <QMessageBox>
-#include <QNetworkReply>
-#include <QStringList>
-#include <QtCore>
-#include <QUrl>
-#include <QFileDialog>
-
 #include "ui_overviewframe.h"
+
+class QWidget;
 
 namespace WalletGui
 {

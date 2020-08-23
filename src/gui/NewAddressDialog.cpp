@@ -3,10 +3,16 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QRegExpValidator>
 #include "NewAddressDialog.h"
 
+#include <QLineEdit>
+#include <QRegExp>
+#include <QRegExpValidator>
+#include <Qt>
+
 #include "ui_newaddressdialog.h"
+
+class QWidget;
 
 namespace WalletGui {
 

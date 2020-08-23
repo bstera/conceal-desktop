@@ -9,6 +9,10 @@
 
 #include "AnimatedLabel.h"
 
+#include <QPoint>
+
+class QWidget;
+
 namespace WalletGui {
 
 AnimatedLabel::AnimatedLabel(QWidget* _parent) : QLabel(_parent), m_spriteVerticalSpace(0) {

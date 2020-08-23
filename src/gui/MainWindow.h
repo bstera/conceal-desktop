@@ -9,14 +9,22 @@
 
 #pragma once
 
+#include <QtCore/qglobal.h>
+
 #include <QLabel>
 #include <QLocale>
-#include <QTranslator>
 #include <QMainWindow>
+#include <QScopedPointer>
+#include <QString>
 #include <QSystemTrayIcon>
 #include <QTimer>
+#include <QTranslator>
+#include <QtCore>
 
 class QActionGroup;
+class QAction;
+class QCloseEvent;
+class QSystemTrayIcon;
 
 namespace Ui {
 class MainWindow;

@@ -7,19 +7,20 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "AddressBookModel.h"
+
+#include <QByteArray>
+#include <QColor>
 #include <QFile>
+#include <QFlags>
+#include <QIODevice>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QDateTime>
-#include <QFont>
-#include <QMetaEnum>
-#include <QPixmap>
-#include <QTextStream>
+#include <QJsonValue>
+#include <QModelIndexList>
 
-
-#include "WalletAdapter.h"
-#include "AddressBookModel.h"
 #include "Settings.h"
+#include "WalletAdapter.h"
 
 namespace WalletGui {
 

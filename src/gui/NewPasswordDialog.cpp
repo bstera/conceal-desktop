@@ -9,7 +9,13 @@
 
 #include "NewPasswordDialog.h"
 
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+
 #include "ui_newpassworddialog.h"
+
+class QWidget;
 
 namespace WalletGui {
 

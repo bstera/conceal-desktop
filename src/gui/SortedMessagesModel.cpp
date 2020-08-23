@@ -7,9 +7,12 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QDateTime>
-
 #include "SortedMessagesModel.h"
+
+#include <QDateTime>
+#include <QModelIndex>
+#include <QVariant>
+
 #include "MessagesModel.h"
 
 namespace WalletGui {

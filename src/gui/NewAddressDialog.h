@@ -6,6 +6,11 @@
 #pragma once
 
 #include <QDialog>
+#include <QScopedPointer>
+#include <QString>
+#include <QtCore>
+
+class QWidget;
 
 namespace Ui {
 class NewAddressDialog;

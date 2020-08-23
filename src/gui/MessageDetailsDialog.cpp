@@ -7,14 +7,23 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QFileDialog>
-#include <QMessageBox>
-
 #include "MessageDetailsDialog.h"
+
+#include <QDir>
+#include <QFile>
+#include <QFileDialog>
+#include <QLabel>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QTextEdit>
+#include <QVariant>
+#include <QtCore>
+
 #include "MainWindow.h"
 #include "MessagesModel.h"
-
 #include "ui_messagedetailsdialog.h"
+
+class QWidget;
 
 namespace WalletGui {
 

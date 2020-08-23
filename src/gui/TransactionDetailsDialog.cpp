@@ -5,14 +5,23 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QDateTime>
+#include "TransactionDetailsDialog.h"
+
+#include <IWalletLegacy.h>
+
+#include <QList>
+#include <QModelIndex>
+#include <QStringList>
+#include <QTextBrowser>
+#include <QVariant>
+#include <QtGlobal>
 
 #include "CurrencyAdapter.h"
 #include "DepositModel.h"
-#include "TransactionDetailsDialog.h"
 #include "TransactionsModel.h"
-
 #include "ui_transactiondetailsdialog.h"
+
+class QWidget;
 
 namespace WalletGui {
 

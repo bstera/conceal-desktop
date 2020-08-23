@@ -5,9 +5,16 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "AddressBookDialog.h"
-#include "AddressBookModel.h"
 
+#include <QModelIndex>
+#include <QTreeView>
+#include <QVariant>
+#include <Qt>
+
+#include "AddressBookModel.h"
 #include "ui_addressbookdialog.h"
+
+class QWidget;
 
 namespace WalletGui {
 

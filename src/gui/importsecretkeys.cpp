@@ -4,10 +4,15 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php
 
-#include <QApplication>
-#include <QFileDialog>
 #include "importsecretkeys.h"
+
+#include <QDir>
+#include <QFileDialog>
+#include <QLineEdit>
+
 #include "ui_importsecretkeys.h"
+
+class QWidget;
 
 namespace WalletGui {
 

@@ -8,9 +8,14 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "PasswordDialog.h"
-#include "Settings.h"
 
+#include <QLabel>
+#include <QLineEdit>
+
+#include "Settings.h"
 #include "ui_passworddialog.h"
+
+class QWidget;
 
 namespace WalletGui
 {

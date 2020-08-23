@@ -4,18 +4,29 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "MessagesModel.h"
+
+#include <CryptoTypes.h>
+#include <IWalletLegacy.h>
+
+#include <QByteArray>
+#include <QChar>
+#include <QColor>
 #include <QDateTime>
-#include <QFont>
+#include <QFlags>
 #include <QMetaEnum>
-#include <QPixmap>
+#include <QMetaObject>
 #include <QTextStream>
-
-
+#include <ext/alloc_traits.h>
+#include <limits>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "CurrencyAdapter.h"
 #include "NodeAdapter.h"
-#include "MessagesModel.h"
 #include "WalletAdapter.h"
+#include "gui/Message.h"
 
 namespace WalletGui 
 {

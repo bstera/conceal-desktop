@@ -9,9 +9,16 @@
 
 #pragma once
 
-#include <QAbstractItemModel>
-#include <QSortFilterProxyModel>
 #include <IWalletLegacy.h>
+
+#include <QAbstractItemModel>
+#include <QModelIndex>
+#include <QPair>
+#include <QSortFilterProxyModel>
+#include <QString>
+#include <QVariant>
+#include <QVector>
+#include <QtCore>
 
 #include "Message.h"
 

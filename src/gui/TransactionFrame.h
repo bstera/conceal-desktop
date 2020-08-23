@@ -12,7 +12,14 @@
 #include <QDataWidgetMapper>
 #include <QFrame>
 #include <QModelIndex>
+#include <QPersistentModelIndex>
+#include <QScopedPointer>
+#include <QString>
 #include <QStyledItemDelegate>
+#include <QtCore>
+
+class QMouseEvent;
+class QWidget;
 
 namespace Ui {
 class TransactionFrame;

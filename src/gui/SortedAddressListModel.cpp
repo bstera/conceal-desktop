@@ -8,6 +8,9 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "SortedAddressListModel.h"
+
+#include <Qt>
+
 #include "AddressBookModel.h"
 
 namespace WalletGui {

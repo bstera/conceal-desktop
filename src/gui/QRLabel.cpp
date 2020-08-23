@@ -7,11 +7,15 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "QRLabel.h"
+
 #include <QImage>
+#include <QPixmap>
+#include <string>
 
 #include "libqrencode/qrencode.h"
 
-#include "QRLabel.h"
+class QWidget;
 
 namespace WalletGui {
 

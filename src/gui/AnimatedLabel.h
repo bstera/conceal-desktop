@@ -10,7 +10,14 @@
 #pragma once
 
 #include <QLabel>
+#include <QPixmap>
+#include <QRect>
+#include <QSize>
+#include <QString>
 #include <QTimer>
+#include <QtCore>
+
+class QWidget;
 
 namespace WalletGui {
 

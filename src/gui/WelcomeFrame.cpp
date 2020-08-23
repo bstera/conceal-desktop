@@ -7,12 +7,19 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "MainWindow.h"
 #include "WelcomeFrame.h"
-#include "ui_welcomeframe.h"
-#include "Settings.h"
+
 #include <QFont>
 #include <QFontDatabase>
+#include <QGroupBox>
+#include <QLabel>
+#include <QList>
+#include <QPushButton>
+#include <QtCore>
+
+#include "ui_welcomeframe.h"
+
+class QWidget;
 
 namespace WalletGui {
 

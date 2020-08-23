@@ -7,16 +7,13 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QApplication>
-#include <QFileDialog>
-#include <Common/Base58.h>
-#include "CurrencyAdapter.h"
-#include "WalletAdapter.h"
-
 #include "ShowQRCode.h"
-#include "QRLabel.h"
 
+#include "QRLabel.h"
+#include "WalletAdapter.h"
 #include "ui_showqrcode.h"
+
+class QWidget;
 
 namespace WalletGui {
 

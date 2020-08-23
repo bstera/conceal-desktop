@@ -9,7 +9,12 @@
 
 #pragma once
 
+#include <QByteArrayData>
 #include <QLabel>
+#include <QString>
+
+class QObject;
+class QWidget;
 
 namespace WalletGui {
 

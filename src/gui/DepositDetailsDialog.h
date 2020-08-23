@@ -9,7 +9,14 @@
 
 #pragma once
 
+#include <QByteArrayData>
 #include <QDialog>
+#include <QScopedPointer>
+#include <QString>
+
+class QModelIndex;
+class QObject;
+class QWidget;
 
 namespace Ui {
 class DepositDetailsDialog;

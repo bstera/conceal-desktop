@@ -6,7 +6,13 @@
 
 #pragma once
 
+#include <QByteArrayData>
 #include <QDialog>
+#include <QScopedPointer>
+#include <QString>
+
+class QObject;
+class QWidget;
 
 namespace Ui {
   class ImportGUIKeyDialog;

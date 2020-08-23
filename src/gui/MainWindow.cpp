@@ -7,51 +7,65 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QCloseEvent>
-#include <QFileDialog>
-#include <QInputDialog>
-#include <QMessageBox>
-#include <QLocale>
-#include <QSystemTrayIcon>
-#include <QTimer>
-#include <QThread>
-#include <QTranslator>
-#include <boost/lexical_cast.hpp>
-#include <boost/program_options.hpp>
-#include <boost/algorithm/string.hpp>
+#include "MainWindow.h"
+
 #include <Common/Base58.h>
-#include <Common/Util.h>
-#include "Common/CommandLine.h"
-#include "Common/SignalHandler.h"
-#include "Common/StringTools.h"
-#include "Common/PathTools.h"
-#include "CryptoNoteCore/CryptoNoteFormatUtils.h"
-#include "CryptoNoteCore/CryptoNoteTools.h"
-#include "CryptoNoteCore/Account.cpp"
-#include "CryptoNoteProtocol/CryptoNoteProtocolHandler.h"
-#include "CryptoNoteCore/CryptoNoteBasicImpl.h"
-#include "Mnemonics/electrum-words.cpp"
-#include "ShowQRCode.h"
+#include <Common/StringTools.h>
+#include <CryptoNote.h>
+#include <CryptoNoteCore/Account.h>
+#include <CryptoNoteCore/CryptoNoteTools.h>
+#include <CryptoTypes.h>
+#include <bits/exception.h>
+#include <crypto/crypto.h>
+#include <ctype.h>
+#include <stdint.h>
+#include <string.h>
+
+#include <CryptoNoteCore/Account.cpp>
+#include <Mnemonics/electrum-words.cpp>
+#include <QAction>
+#include <QActionGroup>
+#include <QApplication>
+#include <QCoreApplication>
+#include <QDialog>
+#include <QDir>
+#include <QEvent>
+#include <QEventLoop>
+#include <QFile>
+#include <QFileDialog>
+#include <QList>
+#include <QLocale>
+#include <QMessageBox>
+#include <QModelIndex>
+#include <QTime>
+#include <QVariant>
+#include <algorithm>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/iterator/iterator_facade.hpp>
+#include <boost/type_index/type_index_facade.hpp>
+#include <boost/utility/value_init.hpp>
+#include <string>
+#include <vector>
+
 #include "AddressBookModel.h"
-#include "AnimatedLabel.h"
 #include "ChangePasswordDialog.h"
 #include "CurrencyAdapter.h"
 #include "ExitWidget.h"
 #include "ImportGUIKeyDialog.h"
-#include "importsecretkeys.h"
 #include "ImportSeedDialog.h"
-#include "importtracking.h"
-#include "OptimizationManager.h"
-#include "MainWindow.h"
-#include "MessagesModel.h"
 #include "NewPasswordDialog.h"
-#include "NodeAdapter.h"
+#include "OptimizationManager.h"
 #include "PasswordDialog.h"
 #include "Settings.h"
+#include "ShowQRCode.h"
 #include "TranslatorManager.h"
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
-
+#include "gui/OverviewFrame.h"
+#include "gui/ReceiveFrame.h"
+#include "gui/WelcomeFrame.h"
+#include "importsecretkeys.h"
+#include "importtracking.h"
 #include "ui_mainwindow.h"
 
 namespace WalletGui

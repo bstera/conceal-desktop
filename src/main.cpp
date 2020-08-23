@@ -7,6 +7,7 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <IWalletLegacy.h>
 #include <locale.h>
 
 #include <QApplication>
@@ -23,7 +24,6 @@
 
 #include "CommandLineParser.h"
 #include "CurrencyAdapter.h"
-#include "IWalletLegacy.h"
 #include "LogFileWatcher.h"
 #include "LoggerAdapter.h"
 #include "NodeAdapter.h"

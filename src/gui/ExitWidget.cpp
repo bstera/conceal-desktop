@@ -8,7 +8,10 @@
 #include "ExitWidget.h"
 
 #include <QIcon>
+#include <QLabel>
 #include <QMovie>
+#include <QSize>
+#include <Qt>
 
 #include "CurrencyAdapter.h"
 #include "ui_exitwidget.h"

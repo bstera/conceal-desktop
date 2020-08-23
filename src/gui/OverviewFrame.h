@@ -5,10 +5,23 @@
 
 #pragma once
 
-#include <QFrame>
-#include <QNetworkAccessManager>
-#include <QStyledItemDelegate>
 #include <IWalletLegacy.h>
+
+#include <QByteArray>
+#include <QFrame>
+#include <QModelIndex>
+#include <QNetworkAccessManager>
+#include <QScopedArrayPointer>
+#include <QScopedPointer>
+#include <QSharedPointer>
+#include <QString>
+#include <QStyledItemDelegate>
+#include <QtCore>
+
+class QMenu;
+class QNetworkReply;
+class QResizeEvent;
+class QWidget;
 
 namespace Ui
 {

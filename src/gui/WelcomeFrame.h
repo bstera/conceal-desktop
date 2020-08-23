@@ -9,9 +9,14 @@
 
 #pragma once
 
+#include <QByteArrayData>
 #include <QFrame>
+#include <QScopedPointer>
+#include <QString>
 
 class QAbstractButton;
+class QObject;
+class QWidget;
 
 namespace Ui {
 class WelcomeFrame;

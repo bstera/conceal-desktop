@@ -12,6 +12,8 @@
 #include <QDateTime>
 #include <QList>
 #include <QPair>
+#include <QString>
+#include <QtCore>
 
 namespace WalletGui {
 

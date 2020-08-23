@@ -7,9 +7,13 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "DepositListModel.h"
+
+#include <QAbstractItemModel>
+#include <QDateTime>
+#include <QVariant>
+
 #include "DepositModel.h"
 #include "SortedDepositModel.h"
-#include "qdatetime.h"
 
 namespace WalletGui {
 

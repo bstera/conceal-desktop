@@ -9,7 +9,10 @@
 
 #pragma once
 
+#include <QScopedPointer>
+#include <QString>
 #include <QWidget>
+#include <QtCore>
 
 class QMovie;
 

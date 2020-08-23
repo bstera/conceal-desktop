@@ -8,10 +8,16 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "DepositDetailsDialog.h"
+
+#include <QModelIndex>
+#include <QTextBrowser>
+#include <QVariant>
+
 #include "CurrencyAdapter.h"
 #include "DepositModel.h"
-
 #include "ui_depositdetailsdialog.h"
+
+class QWidget;
 
 namespace WalletGui {
 

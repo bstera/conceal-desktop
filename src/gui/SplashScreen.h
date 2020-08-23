@@ -6,17 +6,26 @@
 #ifndef SPLASHSCREEN_H
 #define SPLASHSCREEN_H
 
+#include <QColor>
 #include <QLabel>
 #include <QPalette>
 #include <QPushButton>
+#include <QString>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QtCore>
+
+class QApplication;
+class QLabel;
+class QVBoxLayout;
 
 QT_BEGIN_NAMESPACE
 class QPushButton;
+
 QT_END_NAMESPACE
 
-class SplashScreen : public QWidget {
+class SplashScreen : public QWidget
+{
   Q_OBJECT
 
 public:

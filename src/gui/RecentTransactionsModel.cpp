@@ -8,8 +8,11 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "RecentTransactionsModel.h"
-#include "SortedTransactionsModel.h"
+
+#include <QAbstractItemModel>
 #include <QColor>
+
+#include "SortedTransactionsModel.h"
 
 namespace WalletGui {
 

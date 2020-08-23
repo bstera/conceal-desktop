@@ -9,7 +9,11 @@
 
 #pragma once
 
+#include <QModelIndex>
 #include <QSortFilterProxyModel>
+#include <QString>
+#include <QVariant>
+#include <QtCore>
 
 namespace WalletGui {
 

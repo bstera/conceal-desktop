@@ -4,19 +4,21 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QDateTime>
-#include <QDebug>
-#include <QMetaEnum>
-#include <QSize>
-#include <QDateTime>
-#include <QFont>
-#include <QPixmap>
-#include <QTextStream>
-
 #include "DepositModel.h"
-#include "TransactionsModel.h"
+
+#include <IWalletLegacy.h>
+
+#include <QColor>
+#include <QDateTime>
+#include <QFlags>
+#include <QList>
+#include <QMetaEnum>
+#include <QMetaObject>
+#include <QSize>
+
 #include "CurrencyAdapter.h"
 #include "NodeAdapter.h"
+#include "TransactionsModel.h"
 #include "WalletAdapter.h"
 
 Q_DECLARE_METATYPE(CryptoNote::TransactionId)

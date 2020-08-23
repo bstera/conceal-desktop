@@ -7,9 +7,9 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "AddressListModel.h"
+
 #include "AddressBookModel.h"
 #include "SortedAddressListModel.h"
-#include "qdatetime.h"
 
 namespace WalletGui {
 

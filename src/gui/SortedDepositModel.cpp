@@ -8,6 +8,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "SortedDepositModel.h"
+
+#include <QModelIndex>
+#include <QVariant>
+
 #include "DepositModel.h"
 
 namespace WalletGui {

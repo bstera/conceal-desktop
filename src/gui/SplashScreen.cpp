@@ -5,7 +5,23 @@
 
 #include "SplashScreen.h"
 
-#include <QtWidgets>
+#include <time.h>
+
+#include <QApplication>
+#include <QCoreApplication>
+#include <QDesktopWidget>
+#include <QElapsedTimer>
+#include <QEvent>
+#include <QEventLoop>
+#include <QFont>
+#include <QIcon>
+#include <QLabel>
+#include <QObject>
+#include <QPixmap>
+#include <QPushButton>
+#include <QStyle>
+#include <QVBoxLayout>
+#include <QWindow>
 
 SplashScreen::SplashScreen(QWidget* parent) : QWidget(parent)
 {

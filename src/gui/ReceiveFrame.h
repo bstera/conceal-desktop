@@ -10,6 +10,11 @@
 #pragma once
 
 #include <QFrame>
+#include <QScopedPointer>
+#include <QString>
+#include <QtCore>
+
+class QWidget;
 
 namespace Ui {
 class ReceiveFrame;
