@@ -20,8 +20,13 @@ jobs:
         with:
           BUILD_FOLDER: "build"
           RELEASE_FOLDER: "release"
-          CCX_VERSION: $("${{ github.sha }}".SubString(0,7))
+          CCX_VERSION: ${"${{ github.sha }}".SubString(0,7)}
 
+      - name: Test env
+        shell: powershell
+        run: |
+          echo "${env:CCX_VERSION}"
+      
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1.0.0
 
@@ -39,15 +44,19 @@ jobs:
           Remove-Item cryptonote -Recurse -Force -ErrorAction Ignore
           git clone https://github.com/ConcealNetwork/conceal-core cryptonote
 
+      - name: Setup CMakeLists
+        shell: powershell
+        run: |
+          $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
+          Copy-Item CMakeLists.txt CMakeLists_copy.txt
+          Get-Content CMakeLists_copy.txt | %{$_ -replace '^set\(CMAKE_PREFIX_PATH.+', "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"} | Set-Content CMakeLists.txt
+          Remove-Item CMakeLists_copy.txt
+
       - name: Build
         shell: powershell
         id: build
         run: |
           $release_name = "ccx-desktop-win64-dev-${env:CCX_VERSION}"
-          $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
-          Copy-Item CMakeLists.txt CMakeLists_copy.txt
-          Get-Content CMakeLists_copy.txt | %{$_ -replace '^set\(CMAKE_PREFIX_PATH.+', "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"} | Set-Content CMakeLists.txt
-          Remove-Item CMakeLists_copy.txt
           New-Item "${env:BUILD_FOLDER}\${env:RELEASE_FOLDER}" -ItemType Directory
           cd "${env:BUILD_FOLDER}"
           # Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
