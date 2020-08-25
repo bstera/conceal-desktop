@@ -55,8 +55,10 @@ jobs:
           New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
           echo "boost root : $BOOST_ROOT_1_69_0"
+          echo $BOOST_ROOT_1_69_0
+          echo $env::BOOST_ROOT_1_69_0
           # Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
-          cmake -G "Visual Studio 16 2019" -DBoost_INCLUDE_DIR="$BOOST_ROOT_1_69_0"/include -DBOOST_LIBRARYDIR=`$BOOST_ROOT_1_69_0` ..
+          cmake -G "Visual Studio 16 2019" -DBoost_INCLUDE_DIR="$env::BOOST_ROOT_1_69_0"/include -DBOOST_LIBRARYDIR=`$BOOST_ROOT_1_69_0` ..
           msbuild CONCEAL-GUI.sln /p:Configuration=Release /m:2
           echo "::set-output name=build_path::${build_folder}"
           echo "::set-output name=release_name::${release_name}"
