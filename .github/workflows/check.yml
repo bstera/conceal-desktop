@@ -20,7 +20,7 @@ jobs:
         with:
           BUILD_FOLDER: "build"
           RELEASE_FOLDER: "release"
-          CCX_VERSION: ${"${{ github.sha }}".SubString(0,7)}
+          CCX_VERSION: ${{ github.sha }}.SubString(0,7)
 
       - name: Test env
         shell: powershell
