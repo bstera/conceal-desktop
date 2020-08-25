@@ -33,6 +33,7 @@ jobs:
           git clone https://github.com/ConcealNetwork/conceal-core cryptonote
 
       - name: Setup env variables
+        shell: powershell
         run: echo "Setup env variables"
         env:
           TEST: "build"
