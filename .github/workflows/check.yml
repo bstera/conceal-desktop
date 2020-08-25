@@ -46,7 +46,8 @@ jobs:
           VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/"
           BOOST_ROOT: ""
         run: |
-          echo ccx env: $CCX_VER
+          echo "ccx env: $CCX_VER"
+          echo "build folder : $BUILD_FOLDER\$RELEASE_FOLDER"
           $ccx_ver = "${{ github.sha }}".SubString(0,7)
           $release_name = "ccx-desktop-win64-dev-$ccx_ver"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
