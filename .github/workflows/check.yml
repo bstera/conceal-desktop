@@ -49,7 +49,9 @@ jobs:
           $ccx_ver = "${{ github.sha }}".SubString(0,7)
           $release_name = "ccx-desktop-win64-dev-$ccx_ver"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
-          Get-Content CMakeLists.txt | %{$_ -replace '^set\(CMAKE_PREFIX_PATH.+', "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"} | Set-Content CMakeLists.txt
+          Copy-Item CMakeLists.txt CMakeLists_copy.txt
+          Get-Content CMakeLists_copy.txt | %{$_ -replace '^set\(CMAKE_PREFIX_PATH.+', "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"} | Set-Content CMakeLists.txt
+          Remove-Item CMakeLists_copy.txt
           New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
           echo $BUILD_FOLDER
