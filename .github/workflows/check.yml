@@ -32,6 +32,10 @@ jobs:
           Remove-Item cryptonote -Recurse -Force -ErrorAction Ignore
           git clone https://github.com/ConcealNetwork/conceal-core cryptonote
 
+      - name: Setup env variables
+        env:
+          BUILD_FOLDER: "build"
+
       - name: Build
         shell: powershell
         id: build
@@ -44,9 +48,10 @@ jobs:
           $ccx_ver = "${{ github.sha }}".SubString(0,7)
           $release_name = "ccx-desktop-win64-dev-$ccx_ver"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
-          Get-Content CMakeLists.txt -replace '^set\(CMAKE_PREFIX_PATH.+',"set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")" | Set-Content CMakeLists.txt
+          Get-Content CMakeLists.txt | %{$_ -replace '^set\(CMAKE_PREFIX_PATH.+', "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)"`)"} | Set-Content CMakeLists.txt
           New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
+          echo $BUILD_FOLDER
           # Copy-Item "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist" "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/" -Recurse
           cmake -ArgumentList "-G ""Visual Studio 16 2019"" -DBoost_INCLUDE_DIR=$env:BOOST_ROOT_1_69_0/include -DBOOST_LIBRARYDIR=$env:BOOST_ROOT_1_69_0 .." -NoNewWindow -Wait
           msbuild CONCEAL-GUI.sln /p:Configuration=Release /m:2
