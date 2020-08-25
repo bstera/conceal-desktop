@@ -42,6 +42,7 @@ jobs:
         shell: powershell
         id: build
         run: |
+          echo "build folder : $TEST"
           echo "build folder : ${TEST}"
           echo "build folder : ${env:TEST}"
           echo "build folder : ${env.TEST}"
