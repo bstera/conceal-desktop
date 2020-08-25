@@ -15,6 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: set environment variables
+        uses: allenevans/set-env@v1.0.0
+        with:
+          TEST: 'my value'
+
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v1.0.0
 
@@ -31,12 +36,8 @@ jobs:
         run: |
           Remove-Item cryptonote -Recurse -Force -ErrorAction Ignore
           git clone https://github.com/ConcealNetwork/conceal-core cryptonote
-
-      - name: Setup env variables
-        shell: powershell
-        run: echo "Setup env variables"
-        env:
-          TEST: "build"
+          echo "build folder : $TEST"
+          echo "build folder : ${TEST}"
 
       - name: Build
         shell: powershell
