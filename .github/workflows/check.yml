@@ -54,8 +54,8 @@ jobs:
           cmake -G "Visual Studio 16 2019" -DBoost_INCLUDE_DIR="${env:BOOST_ROOT_1_69_0}"/include ..
           msbuild CONCEAL-GUI.sln /p:Configuration=Release /m:2
           echo "::set-output name=build_path::${env:BUILD_FOLDER}"
-          echo "::set-output name=release_name::${env:RELEASE_FOLDER}"
-          echo "::set-output name=release_folder::${release_folder}"
+          echo "::set-output name=release_name::${env:release_name}"
+          echo "::set-output name=release_folder::${env:RELEASE_FOLDER}"
 
       - name: Pack
         shell: powershell
