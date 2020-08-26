@@ -42,9 +42,10 @@ jobs:
           Get-Content CMakeLists_copy.txt | %{$_ -replace '^set\(CMAKE_PREFIX_PATH.+', "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"} | Set-Content CMakeLists.txt
           Remove-Item CMakeLists_copy.txt
 
-          Copy-Item ConcealWallet.nsi ConcealWallet_copy.nsi
-          Get-Content ConcealWallet_copy.nsi | %{$_ -replace "^!define VERSION.+", "!define VERSION `"$($ccx_version)`".0"} | Set-Content ConcealWallet.nsi
-          Remove-Item ConcealWallet_copy.nsi
+          $file = ConcealWallet.nsi
+          $find = "^!define VERSION.+"
+          $replace = "!define VERSION '$ccx_version.0'"
+          (Get-Content $temp_file) | %{$_ -replace $find, $replace} | Set-Content $file
 
       - name: Build
         shell: powershell
