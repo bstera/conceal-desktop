@@ -32,13 +32,20 @@ jobs:
           Remove-Item cryptonote -Recurse -Force -ErrorAction Ignore
           git clone https://github.com/ConcealNetwork/conceal-core cryptonote
 
-      - name: Setup CMakeLists
+      - name: Pre-build setup
         shell: powershell
         run: |
+          $sha = "${{ github.sha }}"
+          $ccx_version = $sha.SubString(0,7)
+
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           Copy-Item CMakeLists.txt CMakeLists_copy.txt
           Get-Content CMakeLists_copy.txt | %{$_ -replace '^set\(CMAKE_PREFIX_PATH.+', "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"} | Set-Content CMakeLists.txt
           Remove-Item CMakeLists_copy.txt
+
+          Copy-Item ConcealWallet.nsi ConcealWallet_copy.nsi
+          Get-Content ConcealWallet_copy.nsi | %{$_ -replace "^!define VERSION.+", "!define VERSION `"$($ccx_version)`""} | Set-Content ConcealWallet.nsi
+          Remove-Item ConcealWallet_copy.nsi
 
       - name: Build
         shell: powershell
@@ -69,6 +76,7 @@ jobs:
           $build_folder = "${{ steps.build.outputs.build_folder }}"
           $release_name = "${{ steps.build.outputs.release_name }}"
           $release_folder = "${{ steps.build.outputs.release_folder }}"
+
           cd "$build_folder"
           mkdir "$release_folder/Final"
           cd "$release_folder"
@@ -77,6 +85,7 @@ jobs:
           makensis ConcealWallet.nsi
           cd "$build_folder/$release_folder"
           Compress-Archive -Path Conceal-Setup.exe -DestinationPath "$release_name.zip"
+
           $artifact_path = "$build_folder/$release_folder/$release_name.zip"
           echo "::set-output name=artifact_path::${artifact_path}"
 
