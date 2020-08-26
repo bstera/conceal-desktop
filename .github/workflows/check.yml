@@ -35,8 +35,7 @@ jobs:
       - name: Pre-build setup
         shell: powershell
         run: |
-          $sha = "${{ github.sha }}"
-          $ccx_version = $sha.SubString(0,7)
+          $ccx_version = "${{ github.ref }}" -replace 'refs/tags/'
 
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           Copy-Item CMakeLists.txt CMakeLists_copy.txt
@@ -70,16 +69,13 @@ jobs:
       - name: Pack
         shell: powershell
         id: pack
-        env:
-          VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\'
         run: |
           $build_folder = "${{ steps.build.outputs.build_folder }}"
           $release_name = "${{ steps.build.outputs.release_name }}"
           $release_folder = "${{ steps.build.outputs.release_folder }}"
 
-          cd "$build_folder"
-          mkdir "$release_folder/Final"
-          cd "$release_folder"
+          cd "$build_folder/$release_folder"
+          mkdir "Final"
           windeployqt --release CONCEAL-GUI.exe --dir "Final/" --no-translations --no-opengl-sw
           cd ../../
           makensis ConcealWallet.nsi
