@@ -43,7 +43,7 @@ jobs:
           Remove-Item CMakeLists_copy.txt
 
           Copy-Item ConcealWallet.nsi ConcealWallet_copy.nsi
-          Get-Content ConcealWallet_copy.nsi | %{$_ -replace "^!define VERSION.+", "!define VERSION `"$($ccx_version)`""} | Set-Content ConcealWallet.nsi
+          Get-Content ConcealWallet_copy.nsi | %{$_ -replace "^!define VERSION.+", "!define VERSION `"$($ccx_version)`".0"} | Set-Content ConcealWallet.nsi
           Remove-Item ConcealWallet_copy.nsi
 
       - name: Build
