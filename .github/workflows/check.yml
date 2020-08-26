@@ -38,15 +38,15 @@ jobs:
           $search = "set\(CN_VERSION "
           $ccx_version = ((Get-Content CryptoNoteWallet.cmake | Select-String $search) | %{$_ -replace $search, ""}) | %{$_ -replace "\)", ""}
           $ccx_version = $ccx_version + ".0"
-
-          echo "ccv ver : $ccx_version"
-
+          
+          # Update "CMakeLists.txt" with cmake dir
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           $file = "CMakeLists.txt"
           $find = '^set\(CMAKE_PREFIX_PATH.+'
           $replace = "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"
           (Get-Content $file) | %{$_ -replace $find, $replace} | Set-Content $file
 
+          # Update ConcealWallet.nsi with the current version
           $file = "ConcealWallet.nsi"
           $find = "^!define VERSION.+"
           $replace = "!define VERSION '$ccx_version.0'"
@@ -104,26 +104,31 @@ jobs:
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get purge '*boost*'
+          sudo apt update -y
+          sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost-all-dev
+
+      - name: Clone conceal-core
+        shell: powershell
+        run: |
+          rm -rf cryptonote
+          git clone https://github.com/ConcealNetwork/conceal-core.git cryptonote
+
       - name: Build
         id: build
         run: |
-          BOOST_ROOT=
-           sudo apt-get purge '*boost*'
-           sudo apt update -y
-           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost-all-dev
-           build_folder="build/debug"
            ccx_ver=${GITHUB_SHA::7}
-           release_name=ccx-desktop-ubuntu-1604-v"$ccx_ver"
-           app_name="CONCEAL-GUI"
-           rm -rf cryptonote
-           git clone https://github.com/ConcealNetwork/conceal-core.git cryptonote
-           mkdir -p "$build_folder"
-           cd "$build_folder"
-           cmake ../..
-           make -j2
-           tar -czf "$release_name".tar.gz "$app_name"
+           release_name=ccx-desktop-ubuntu-1604-dev-"$ccx_ver"
+
+           make -j4 build-release
+           tar -czf "$release_name".tar.gz "build/release/CONCEAL-GUI"
+
            echo "::set-output name=release_name::${release_name}"
-           echo "::set-output name=artifact_path::$build_folder/$release_name.tar.gz"
+           echo "::set-output name=artifact_path::$release_name.tar.gz"
+
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
         with:
