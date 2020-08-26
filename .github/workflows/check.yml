@@ -45,7 +45,7 @@ jobs:
           $file = "ConcealWallet.nsi"
           $find = "^!define VERSION.+"
           $replace = "!define VERSION '$ccx_version.0'"
-          (Get-Content $temp_file) | %{$_ -replace $find, $replace} | Set-Content $file
+          (Get-Content $file) | %{$_ -replace $find, $replace} | Set-Content $file
 
       - name: Build
         shell: powershell
