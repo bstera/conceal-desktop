@@ -245,8 +245,8 @@ jobs:
           cd "$build_folder"
           cmake -DCMAKE_C_FLAGS="-mmacosx-version-min=10.12" -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.12" -D CMAKE_BUILD_TYPE=Release ../..
           make -j4
-          macdeployqt "$app_name" -dmg
-          # cpack
+          macdeployqt "$app_name"
+          cpack
           ls
           mkdir "$release_name"
           mv *.dmg "$release_name/"
