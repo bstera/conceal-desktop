@@ -40,7 +40,7 @@ jobs:
 
           echo "::set-output name=sha256::${sha256}"
           echo "::set-output name=release_name::${release_name}.tar.gz"
-          echo "::set-output name=asset_path::$build_folder/$release_name".tar.gz"
+          echo "::set-output name=asset_path::$build_folder/$release_name.tar.gz"
           echo "::set-output name=ccx_version::${ccx_version}"
 
       - name: Create Release
