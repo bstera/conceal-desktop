@@ -27,7 +27,7 @@ jobs:
         run: |
           ccx_version=$(echo "$GITHUB_REF" | sed 's|refs/tags/||')
           release_name=ccx-desktop-ubuntu-1604-v"$ccx_version"
-          build_folder=build/release
+          build_folder="build/release"
 
           make -j4 build-release
           mkdir $release_name
