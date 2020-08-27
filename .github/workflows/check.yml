@@ -119,8 +119,8 @@ jobs:
       - name: Build
         id: build
         run: |
-          ccx_ver=${GITHUB_SHA::7}
-          release_name=ccx-desktop-ubuntu-1604-dev-"$ccx_ver"
+          ccx_version=${GITHUB_SHA::7}
+          release_name=ccx-desktop-ubuntu-1604-dev-"$ccx_version"
 
           make -j4 build-release
           mkdir $release_name
@@ -160,8 +160,8 @@ jobs:
       - name: Build
         id: build
         run: |
-          ccx_ver=${GITHUB_SHA::7}
-          release_name=ccx-desktop-ubuntu-1804-dev-"$ccx_ver"
+          ccx_version=${GITHUB_SHA::7}
+          release_name=ccx-desktop-ubuntu-1804-dev-"$ccx_version"
 
           make -j4 build-release
           mkdir $release_name
@@ -201,8 +201,8 @@ jobs:
       - name: Build
         id: build
         run: |
-          ccx_ver=${GITHUB_SHA::7}
-          release_name=ccx-desktop-ubuntu-2004-dev-"$ccx_ver"
+          ccx_version=${GITHUB_SHA::7}
+          release_name=ccx-desktop-ubuntu-2004-dev-"$ccx_version"
 
           make -j4 build-release
           mkdir $release_name
