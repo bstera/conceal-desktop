@@ -256,9 +256,9 @@ jobs:
           make -j4
           macdeployqt "$app_name"
           cpack
-          ls
           mkdir "$release_name"
-          mv *.dmg "$release_name/"
+          mv *.dmg "$release_name".dmg
+          mv "$release_name".dmg "$release_name"
 
           echo "::set-output name=release_name::${release_name}"
           echo "::set-output name=artifact_path::$build_folder/$release_name"
