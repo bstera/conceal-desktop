@@ -26,10 +26,11 @@ jobs:
         id: build
         run: |
           ccx_version=$(echo "$GITHUB_REF" | sed 's|refs/tags/||')
-          release_name=ccx-desktop-ubuntu-1604-v"$ccx_version"
+          release_name="ccx-desktop-ubuntu-1604-v$ccx_version"
           build_folder="build/release"
-
+          ls
           make -j4 build-release
+
           mkdir $release_name
           mkdir -p $release_name/icon
           mv $build_folder/CONCEAL-GUI $release_name
