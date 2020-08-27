@@ -47,12 +47,12 @@ InstallDir "$PROGRAMFILES\Conceal Wallet"
 !define MUI_ABORTWARNING
 !define MUI_UNABORTWARNING
 
-!define MUI_WELCOMEFINISHPAGE_BITMAP "conceal-512.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "conceal-512.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "conceal512.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "concealinst.bmp"
 
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "conceal-256.bmp"
+!define MUI_HEADERIMAGE_BITMAP "conceal256.bmp"
 
 !insertmacro MUI_PAGE_WELCOME
 
