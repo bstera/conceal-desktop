@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=Conceal Desktop
 Comment=Conceal Desktop
-Exec=CONCEAL-GUI
+Exec=conceal-desktop
 Terminal=false
 Type=Application
 Icon=conceal.png
