@@ -84,11 +84,8 @@ jobs:
           mkdir "Final"
           windeployqt --release CONCEAL-GUI.exe --dir "Final/" --no-translations --no-opengl-sw
 
-          pwd
           ls
-
-          iscc
-          & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+          ls Final
 
       #     cd ../../
       #     makensis ConcealWallet.nsi
