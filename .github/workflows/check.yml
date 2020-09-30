@@ -86,7 +86,9 @@ jobs:
           ls
           ls Final
           mv Final ../../installer/windows/build
-          mv CONCEAL-GUI.exe ../installer/windows/build/conceal-desktop.exe
+          ls ../../installer/windows/build
+          ls ../../installer/windows/
+          mv CONCEAL-GUI.exe ../../installer/windows/build/conceal-desktop.exe
           cd ../../installer/windows/
           iscc setup.iss
           cd bin
