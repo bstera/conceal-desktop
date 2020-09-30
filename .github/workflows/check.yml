@@ -37,7 +37,6 @@ jobs:
         run: |
           $search = "set\(CN_VERSION "
           $ccx_version = ((Get-Content CryptoNoteWallet.cmake | Select-String $search) | %{$_ -replace $search, ""}) | %{$_ -replace "\)", ""}
-          $ccx_version = $ccx_version + ".0"
 
           # Update "CMakeLists.txt" with cmake dir
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
@@ -46,10 +45,10 @@ jobs:
           $replace = "set(CMAKE_PREFIX_PATH `"$($qt5_cmake)`")"
           (Get-Content $file) | %{$_ -replace $find, $replace} | Set-Content $file
 
-          # Update ConcealWallet.nsi with the current version
-          $file = "ConcealWallet.nsi"
-          $find = "^!define VERSION.+"
-          $replace = "!define VERSION '$ccx_version.0'"
+          # Update installer/windows/setup.iss with the current version
+          $file = "installer/windows/setup.iss"
+          $find = "^#define AppVersion.+"
+          $replace = "#define AppVersion $ccx_version'"
           (Get-Content $file) | %{$_ -replace $find, $replace} | Set-Content $file
 
       - name: Build
@@ -86,22 +85,24 @@ jobs:
 
           ls
           ls Final
-
-      #     cd ../../
+          mv Final ../../installer/windows/build
+          mv CONCEAL-GUI.exe ../installer/windows/build/conceal-desktop.exe
+          cd ../../installer/windows/
+          iscc setup.iss
       #     makensis ConcealWallet.nsi
-      #     cd "$build_folder/$release_folder"
-      #     Compress-Archive -Path Conceal-Setup.exe -DestinationPath "$release_name.zip"
+          cd bin
+          Compress-Archive -Path Conceal*.exe -DestinationPath "$release_name.zip"
 
-      #     $artifact_path = "$build_folder/$release_folder/$release_name.zip"
-      #     echo "::set-output name=artifact_path::${artifact_path}"
+          $artifact_path = "installer/windows/bin/$release_name.zip"
+          echo "::set-output name=artifact_path::${artifact_path}"
 
-      # - name: Upload To GH Artifacts
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: ${{ steps.build.outputs.release_name }}
-      #     path: ${{ steps.pack.outputs.artifact_path }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload To GH Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.build.outputs.release_name }}
+          path: ${{ steps.pack.outputs.artifact_path }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # build-ubuntu16:
   #   name: Ubuntu 16.04
