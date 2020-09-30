@@ -1,6 +1,3 @@
-// contribute: https://github.com/domgho/InnoDependencyInstaller
-// official article: https://www.codeproject.com/Articles/20868/Inno-Setup-Dependency-Installer
-
 #define AppSetupName 'Conceal Desktop'
 #define AppVersion '6.3.1'
 #define AppPublisher 'Conceal Network'
@@ -22,6 +19,7 @@ AppPublisher={#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppURL}
 AppUpdatesURL={#UpdateURL}
+AppComments={#AppComments}
 OutputBaseFilename={#AppSetupName}-{#AppVersion}
 DefaultGroupName={#AppSetupName}
 #if VER < EncodeVer(6,0,0)
@@ -33,6 +31,8 @@ UninstallDisplayIcon={app}\{#AppExe}
 OutputDir=bin
 SourceDir=.
 AllowNoIcons=yes
+WizardImageFile=Image.bmp
+WizardSmallImageFile=SmallImage.bmp
 
 PrivilegesRequired=admin
 ArchitecturesAllowed=x86 x64 ia64
