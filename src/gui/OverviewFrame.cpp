@@ -155,6 +155,24 @@ namespace WalletGui
       m_ui->lm_lockWalletButton->show();
     }
 
+
+    m_ui->m_size->addItem("12");
+    m_ui->m_size->addItem("13");
+    m_ui->m_size->addItem("14");
+    m_ui->m_size->addItem("15");
+    m_ui->m_size->addItem("16");
+    m_ui->m_size->addItem("17");
+    m_ui->m_size->addItem("18");
+    m_ui->m_size->addItem("19");
+
+    m_ui->m_font->addItem("Poppins");
+    m_ui->m_font->addItem("Roboto");
+    m_ui->m_font->addItem("Lekton");
+    m_ui->m_font->addItem("Montserrat");
+    m_ui->m_font->addItem("Open Sans");
+    m_ui->m_font->addItem("Lato");
+    m_ui->m_font->addItem("Oswald");
+
     /* Add the currencies we support to the combobox */
     m_ui->m_language->addItem("USD");
     m_ui->m_language->addItem("EUR");
@@ -185,6 +203,7 @@ namespace WalletGui
     m_ui->m_language->addItem("PKR");
     m_ui->m_language->addItem("EGP");
     m_ui->m_language->addItem("ILS");
+    m_ui->m_language->addItem("SEK");
     m_ui->m_language->addItem("NOK");
     m_ui->m_language->addItem("LSL");
     m_ui->m_language->addItem("UAH");
@@ -263,13 +282,26 @@ namespace WalletGui
 
     /** Get current currency from the config file and update 
      * the dropdown in settings to show the correct currency */
-    QString currency = Settings::instance().getCurrentCurrency();
-    int index = m_ui->m_language->findText(currency, Qt::MatchExactly);
-    m_ui->m_language->setCurrentIndex(index);
+    QString currentFont = Settings::instance().getFont();
+    int index = m_ui->m_font->findText(currentFont, Qt::MatchExactly);
+    m_ui->m_font->setCurrentIndex(index);
 
-    /* Set the styles */
-    setStyles(2);
+    QString currency = Settings::instance().getCurrentCurrency();
+    int index2 = m_ui->m_language->findText(currency, Qt::MatchExactly);
+    m_ui->m_language->setCurrentIndex(index2);
+
+    QString size = QString::number(Settings::instance().getFontSize());
+    int index3 = m_ui->m_size->findText(size, Qt::MatchExactly);
+    m_ui->m_size->setCurrentIndex(index3);
+
+    /* Check saved sizes and ensure they are within the acceptable parameters */
     int startingFontSize = Settings::instance().getFontSize();
+    if ((startingFontSize < 12) || (startingFontSize > 19)){
+      startingFontSize = 13;
+      Settings::instance().setFontSize(startingFontSize);
+    }
+
+    /* Apply the default or saved style */
     setStyles(startingFontSize);
 
     /* Load the price chart */
@@ -319,6 +351,17 @@ namespace WalletGui
       m_ui->radioButton_2->setChecked(true);
     }
 
+    if (Settings::instance().getMaximizedStatus() == "enabled")
+    {
+      m_ui->b2_startMaximized->setText(tr("CLICK TO DISABLE"));
+    }
+    else
+    {
+      m_ui->b2_startMaximized->setText(tr("CLICK TO ENABLE"));
+    }
+
+
+
     if (Settings::instance().getAutoOptimizationStatus() == "enabled")
     {
       m_ui->b2_autoOptimizeButton->setText(tr("CLICK TO DISABLE"));
@@ -366,6 +409,17 @@ namespace WalletGui
     showCurrentWalletName();
     walletSynced = true;
 
+    /* Check saved sizes and ensure they are within the acceptable parameters */
+    int startingFontSize = Settings::instance().getFontSize();
+    if ((startingFontSize < 12) || (startingFontSize > 19))
+    {
+      startingFontSize = 13;
+      Settings::instance().setFontSize(startingFontSize);
+    }
+
+    /* Apply the default or saved style */
+    setStyles(startingFontSize);
+
     /* Show total portfolio */
     quint64 actualBalance = WalletAdapter::instance().getActualBalance();
     quint64 pendingBalance = WalletAdapter::instance().getPendingBalance();
@@ -406,7 +460,10 @@ namespace WalletGui
   void OverviewFrame::updateWalletAddress(const QString &_address)
   {
     OverviewFrame::wallet_address = _address;
-    m_ui->m_copyAddressButton_3->setText(OverviewFrame::wallet_address);
+    std::string theAddress = _address.toStdString();
+    std::string start = theAddress.substr(0, 6);
+    std::string end = theAddress.substr(92, 6);
+    m_ui->m_copyAddressButton_3->setText("Wallet Address: " + QString::fromStdString(start) + "......" + QString::fromStdString(end));
 
     /* Show/hide the encrypt wallet button */
     if (!Settings::instance().isEncrypted())
@@ -429,57 +486,77 @@ namespace WalletGui
     }
   }
 
-  void OverviewFrame::changeFontSize()
-  {
-    int fontSize = Settings::instance().getFontSize();
-    fontSize++;
-    if (fontSize < 6)
-    {
-      setStyles(fontSize);
-    }
-    else
-    {
-      fontSize = 0;
-      setStyles(fontSize);
-    }
-    Settings::instance().setFontSize(fontSize);
-  }
-
   void OverviewFrame::setStyles(int change)
   {
-
     /** Set the base font sizes */
-    int baseFontSize = 12 + change;
-    int baseTitleSize = 19 + change;
-    int baseSmallButtonSize = 9 + change;
-    int baseLargeButtonSize = 11 + change;
+    int baseFontSize = change;
+    int baseTitleSize = 7 + change;
+    int baseSmallButtonSize = change - 3;
+    int baseLargeButtonSize = change - 1;
 
-    /** Set the font and have two sizes, one for regular text
-     * and the other for the titles, we can then later change all the 
-     * font sizes */
-    int id = QFontDatabase::addApplicationFont(":/fonts/Poppins-Regular.ttf");
+    int id;
+
+    QString currentFont = Settings::instance().getFont();
+    if (currentFont == "Poppins")
+    {
+      id = QFontDatabase::addApplicationFont(":/fonts/Poppins-Regular.ttf");
+    }
+    if (currentFont == "Lekton")
+    {
+      id = QFontDatabase::addApplicationFont(":/fonts/Lekton-Regular.ttf");
+    }
+    if (currentFont == "Roboto")
+    {
+      id = QFontDatabase::addApplicationFont(":/fonts/RobotoSlab-Regular.ttf");
+    }
+    if (currentFont == "Montserrat")
+    {
+      id = QFontDatabase::addApplicationFont(":/fonts/Montserrat-Regular.ttf");
+    }
+    if (currentFont == "Open Sans")
+    {
+      id = QFontDatabase::addApplicationFont(":/fonts/OpenSans-Regular.ttf");
+    }
+    if (currentFont == "Oswald")
+    {
+      id = QFontDatabase::addApplicationFont(":/fonts/Oswald-Regular.ttf");
+    }
+    if (currentFont == "Lato")
+    {
+      id = QFontDatabase::addApplicationFont(":/fonts/Lato-Regular.ttf");
+    }
 
     QFont font;
-    font.setFamily("Poppins");
+    font.setFamily(currentFont);
     font.setPixelSize(baseFontSize);
+    font.setHintingPreference(QFont::PreferFullHinting);
+    font.setStyleStrategy(QFont::PreferAntialias);
 
     QFont smallButtonFont;
-    font.setFamily("Poppins");
-    font.setPixelSize(baseSmallButtonSize);
+    font.setFamily(currentFont);
+    smallButtonFont.setPixelSize(baseSmallButtonSize);
+    smallButtonFont.setHintingPreference(QFont::PreferFullHinting);
+    smallButtonFont.setStyleStrategy(QFont::PreferAntialias);
 
     QFont largeButtonFont;
-    font.setFamily("Poppins");
-    font.setPixelSize(baseLargeButtonSize);
+    font.setFamily(currentFont);
+    largeButtonFont.setPixelSize(baseLargeButtonSize);
+    largeButtonFont.setHintingPreference(QFont::PreferFullHinting);
+    largeButtonFont.setStyleStrategy(QFont::PreferAntialias);
 
     QFont titleFont;
-    titleFont.setFamily("Poppins");
+    font.setFamily(currentFont);
     titleFont.setPixelSize(baseTitleSize);
+    titleFont.setHintingPreference(QFont::PreferFullHinting);
+    titleFont.setStyleStrategy(QFont::PreferAntialias);
 
     /* Create our common pool of styles */
     QString tableStyle = "QHeaderView::section{font-size:" + QString::number(baseFontSize) + "px;background-color:#282d31;color:#fff;font-weight:700;height:37px;border-top:1px solid #444;border-bottom:1px solid #444}QTreeView::item{color:#ccc;height:37px}";
     QString b1Style = "QPushButton{font-size: " + QString::number(baseLargeButtonSize) + "px; color:#fff;border:1px solid orange;border-radius:5px;} QPushButton:hover{color:orange;}";
     QString b2Style = "QPushButton{font-size: " + QString::number(baseSmallButtonSize) + "px; color: orange; border:1px solid orange; border-radius: 5px} QPushButton:hover{color: gold;}";
-    QString fontStyle = "font-size:" + QString::number(baseFontSize-1) + "px;";
+    QString fontStyle = "font-size:" + QString::number(baseFontSize) + "px; color: #ddd;";
+    QString darkFontStyle = "font-size:" + QString::number(baseFontSize) + "px; color: #999;";
+    QString orangeFontStyle = "font-size:" + QString::number(baseFontSize) + "px; color: orange;";
 
     QList<QPushButton *>
         buttons = m_ui->groupBox->findChildren<QPushButton *>();
@@ -544,8 +621,24 @@ namespace WalletGui
     QList<QLabel *> labels2 = m_ui->m_recentTransactionsView->findChildren<QLabel *>();
     foreach (QLabel *label, labels2)
     {
-      label->setStyleSheet(fontStyle);
+      label->setFont(font);
+      label->setStyleSheet(darkFontStyle);
+
+      if (label->objectName().contains("icon"))
+      {
+        label->setStyleSheet(fontStyle);
+      }
+
+      if (label->objectName().contains("amount"))
+      {
+        label->setStyleSheet(fontStyle);
+      }
     }
+
+
+
+    m_ui->groupBox->update();
+    m_ui->m_recentTransactionsView->update();
   }
 
   /* Load the price chart on the overview screen */
@@ -605,7 +698,7 @@ namespace WalletGui
   {
 
     QString walletFile = Settings::instance().getWalletName();
-    m_ui->m_currentWalletTitle->setText(tr("Current Wallet") + ": " + walletFile);
+    m_ui->m_currentWalletTitle->setText(walletFile);
   }
 
   /* Download is done, set the chart as the pixmap */
@@ -647,7 +740,7 @@ namespace WalletGui
   void OverviewFrame::actualBalanceUpdated(quint64 _balance)
   {
     m_ui->m_actualBalanceLabel->setText(CurrencyAdapter::instance().formatAmount(_balance));                   // Overview screen
-    m_ui->m_balanceLabel->setText("Available Balance: " + CurrencyAdapter::instance().formatAmount(_balance)); // Send funds screen
+    m_ui->m_balanceLabel->setText("Available Balance: " + CurrencyAdapter::instance().formatAmount(_balance) + " CCX"); // Send funds screen
     m_actualBalance = _balance;
     quint64 actualBalance = WalletAdapter::instance().getActualBalance();
     quint64 pendingBalance = WalletAdapter::instance().getPendingBalance();
@@ -778,10 +871,10 @@ namespace WalletGui
     QString ccx_24h_volume = QLocale(QLocale::system()).toString(c24h_volume, 'f', 2);
     double c24h_change = result[changeCurrency].toDouble();
     QString ccx_24h_change = QLocale(QLocale::system()).toString(c24h_change, 'f', 2);
-    m_ui->m_ccx->setText(currentCurrency + " " + ccx);
+    m_ui->m_ccx->setText(ccx + " " + currentCurrency);
     m_ui->m_24hChange->setText(ccx_24h_change + "%");
-    m_ui->m_marketCap->setText(currentCurrency + " " + ccx_market_cap);
-    m_ui->m_volume->setText(currentCurrency + " " + ccx_24h_volume);
+    m_ui->m_marketCap->setText(ccx_market_cap + " " + currentCurrency);
+    m_ui->m_volume->setText(ccx_24h_volume + " " + currentCurrency);
 
     updatePortfolio();
   }
@@ -799,8 +892,9 @@ namespace WalletGui
 
     float total = 0;
     total = ccxfiat * (float)OverviewFrame::totalBalance;
-    m_ui->ccxTotal->setText(tr("Total") + " " + CurrencyAdapter::instance().formatAmount(OverviewFrame::totalBalance) + " CCX ");
-    m_ui->fiatTotal->setText(tr("Total") + " " + CurrencyAdapter::instance().formatCurrencyAmount(total / 10000) + " " + Settings::instance().getCurrentCurrency());
+    m_ui->ccxTotal->setText(CurrencyAdapter::instance().formatAmount(OverviewFrame::totalBalance) + " CCX ");
+    m_ui->fiatTotal->setText(CurrencyAdapter::instance().formatCurrencyAmount(total / 10000) + " " + Settings::instance().getCurrentCurrency());
+    m_ui->fiatLabel->setText("Portfolio (" + Settings::instance().getCurrentCurrency() + ")");
   }
 
   /* Banking menu button clicked */
@@ -1721,6 +1815,20 @@ namespace WalletGui
     }
   }
 
+  void OverviewFrame::startMaximizedClicked()
+  {
+      if (Settings::instance().getMaximizedStatus() == "enabled")
+      {
+        Settings::instance().setMaximizedStatus("disabled");
+        m_ui->b2_startMaximized->setText(tr("CLICK TO ENABLE"));
+      }
+      else
+      {
+        Settings::instance().setMaximizedStatus("enabled");
+        m_ui->b2_startMaximized->setText(tr("CLICK TO DISABLE"));
+      }
+  }
+
   void OverviewFrame::saveLanguageCurrencyClicked()
   {
     QString language;
@@ -1744,6 +1852,10 @@ namespace WalletGui
 
     /* Save the selected currency */
     Settings::instance().setCurrentCurrency(m_ui->m_language->currentText());
+
+    Settings::instance().setFont(m_ui->m_font->currentText());
+
+    Settings::instance().setFontSize(m_ui->m_size->currentText().toInt());
 
     loadChart();
     m_priceProvider->getPrice();

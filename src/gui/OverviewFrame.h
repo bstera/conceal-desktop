@@ -122,7 +122,6 @@ private:
   Q_SLOT void showMessageDetails(const QModelIndex &_index);
   Q_SLOT void settingsClicked();
   Q_SLOT void addressBookClicked();
-  Q_SLOT void changeFontSize();
   Q_SLOT void sendFundsClicked();
   Q_SLOT void sendMessageClicked();
   Q_SLOT void clearAllClicked();
@@ -148,6 +147,7 @@ private:
   Q_SLOT void closeToTrayClicked();
   Q_SLOT void optimizeClicked();
   Q_SLOT void setPercentage25();
+  Q_SLOT void startMaximizedClicked();
   Q_SLOT void setPercentage50();
   Q_SLOT void setPercentage100();    
   Q_SLOT void autoOptimizeClicked(); 
