@@ -89,7 +89,6 @@ jobs:
           mv CONCEAL-GUI.exe ../installer/windows/build/conceal-desktop.exe
           cd ../../installer/windows/
           iscc setup.iss
-      #     makensis ConcealWallet.nsi
           cd bin
           Compress-Archive -Path Conceal*.exe -DestinationPath "$release_name.zip"
 
