@@ -64,7 +64,7 @@ jobs:
           New-Item "$build_folder\$release_folder" -ItemType Directory
           cd "$build_folder"
 
-          cmake -G "Visual Studio 16 2019" -DBoost_INCLUDE_DIR="${env:BOOST_ROOT_1_69_0}"/include ..
+          cmake -G "Visual Studio 16 2019 Win64" -DBoost_INCLUDE_DIR="${env:BOOST_ROOT_1_69_0}"/include ..
           msbuild CONCEAL-GUI.sln /p:Configuration=Release /m:2
 
           echo "::set-output name=build_folder::${build_folder}"
@@ -83,11 +83,7 @@ jobs:
           mkdir "Final"
           windeployqt --release CONCEAL-GUI.exe --dir "Final/" --no-translations --no-opengl-sw
 
-          ls
-          ls Final
           mv Final ../../installer/windows/build
-          ls ../../installer/windows/build
-          ls ../../installer/windows/
           mv CONCEAL-GUI.exe ../../installer/windows/build/conceal-desktop.exe
           cd ../../installer/windows/
           iscc setup.iss
