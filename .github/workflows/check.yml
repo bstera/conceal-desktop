@@ -84,6 +84,7 @@ jobs:
           windeployqt --release conceal-desktop.exe --dir "Final/" --no-translations --no-opengl-sw
 
           mv Final ../../installer/windows/build
+          mv conceal-desktop.exe ../../installer/windows/build/
           cd ../../installer/windows/
           iscc setup.iss
           cd bin

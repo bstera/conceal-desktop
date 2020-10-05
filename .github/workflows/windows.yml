@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup msbuild
-        uses: microsoft/setup-msbuild@v1.0.0
+        uses: microsoft/setup-msbuild@v1.0.1
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
@@ -81,6 +81,7 @@ jobs:
           windeployqt --release conceal-desktop.exe --dir "Final/" --no-translations --no-opengl-sw
 
           mv Final ../../installer/windows/build
+          mv conceal-desktop.exe ../../installer/windows/build/
           cd ../../installer/windows/
           iscc setup.iss
           cd bin
