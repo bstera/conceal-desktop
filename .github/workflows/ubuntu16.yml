@@ -20,7 +20,7 @@ jobs:
       - name: Clone conceal-core
         run: |
           rm -rf cryptonote
-          git clone https://github.com/ConcealNetwork/conceal-core.git cryptonote
+          git clone https://github.com/AxVultis/conceal-core.git -b aes cryptonote
 
       - name: Build
         id: build
