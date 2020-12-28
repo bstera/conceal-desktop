@@ -27,7 +27,7 @@ jobs:
         shell: powershell
         run: |
           Remove-Item cryptonote -Recurse -Force -ErrorAction Ignore
-          git clone https://github.com/ConcealNetwork/conceal-core cryptonote
+          git clone https://github.com/AxVultis/conceal-core.git -b aes cryptonote
 
       - name: Pre-build setup
         shell: powershell
