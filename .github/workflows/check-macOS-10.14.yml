@@ -10,12 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-
       - name: Install dependencies
         run: |
-          brew install gcc boost
+          brew install gcc boost qt5
 
       - name: Clone conceal-core
         run: |
@@ -27,7 +24,7 @@ jobs:
         run: |
           build_folder="build/release"
           ccx_ver=${GITHUB_SHA::7}
-          release_name="ccx-desktop-macOS-dev-$ccx_ver"
+          release_name="ccx-desktop-macOS-10.14-dev-$ccx_ver"
           app_name="CONCEAL-GUI.app"
 
           mkdir -p "$build_folder"
