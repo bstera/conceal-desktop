@@ -22,6 +22,7 @@ jobs:
       - name: Build
         id: build
         run: |
+          export PATH="/usr/local/opt/qt/bin:$PATH"
           build_folder="build/release"
           ccx_ver=${GITHUB_SHA::7}
           release_name="ccx-desktop-macOS-10.14-dev-$ccx_ver"
