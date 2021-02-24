@@ -17,7 +17,7 @@ jobs:
       - name: Clone conceal-core
         run: |
           rm -rf cryptonote
-          git clone https://github.com/AxVultis/conceal-core.git -b clang cryptonote
+          git clone https://github.com/ConcealNetwork/conceal-core.git cryptonote
 
       - name: Build
         id: build
@@ -27,6 +27,7 @@ jobs:
           ccx_ver=${GITHUB_SHA::7}
           release_name="ccx-desktop-macOS-10.14-dev-$ccx_ver"
           app_name="CONCEAL-GUI.app"
+          sed -i .bk 's/HAVE_ROTR/NO_ROTR/g' CMakeLists.txt # HAVE_ROTR cheat
 
           mkdir -p "$build_folder"
           cd "$build_folder"
