@@ -1,6 +1,9 @@
 name: macOS 10.14
 
-on: release
+on:
+  push:
+    tags:
+      - "*"
 
 jobs:
   build-macos-10-14:
@@ -22,6 +25,8 @@ jobs:
       - name: Build
         id: build
         run: |
+          export PATH="/usr/local/opt/qt/bin:$PATH"
+
           build_folder="build/release"
           ccx_ver=$(echo ${{ github.ref }} | sed 's|refs/tags/||')
           release_name="ccx-desktop-macOS-10.14-v$ccx_ver"
