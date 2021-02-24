@@ -11,8 +11,8 @@ jobs:
 
       - name: Install and update dependencies
         run: |
-          ./brew_install_or_update.sh boost
-          ./brew_install_or_update.sh qt5
+          ./brew_install_or_upgrade.sh boost
+          ./brew_install_or_upgrade.sh qt5
 
       - name: Clone conceal-core
         run: |
