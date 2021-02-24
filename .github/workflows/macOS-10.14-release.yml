@@ -24,7 +24,7 @@ jobs:
         run: |
           build_folder="build/release"
           ccx_ver=$(echo ${{ github.ref }} | sed 's|refs/tags/||')
-          release_name="ccx-desktop-macOS-v$ccx_ver"
+          release_name="ccx-desktop-macOS-10.14-v$ccx_ver"
           app_name="CONCEAL-GUI.app"
           sed -i .bk 's/HAVE_ROTR/NO_ROTR/g' CMakeLists.txt # HAVE_ROTR cheat
           mkdir -p "$build_folder"
