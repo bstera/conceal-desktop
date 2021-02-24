@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: |
-          brew install gcc boost qt5
+      # - name: Install dependencies
+      #   run: |
+      #     brew install gcc boost qt5
 
       - name: Clone conceal-core
         run: |
