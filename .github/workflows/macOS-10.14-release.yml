@@ -1,4 +1,4 @@
-name: macOS 10.14
+name: macOS 10.14 release
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-macos-10-14:
-    name: macOS 10.14
+    name: macOS 10.14 release
     runs-on: andromeda # macOS 10.14 Mojave self-hosted runner
     steps:
       - uses: actions/checkout@v2
@@ -56,7 +56,7 @@ jobs:
           files: ${{ steps.build.outputs.asset_path }}
           name: Conceal Desktop v${{ steps.build.outputs.ccx_ver }}
           body: |
-            <img src="https://image.flaticon.com/icons/svg/25/25345.svg" width="16"> [Download for MacOS](../../releases/download/${{ steps.build.outputs.ccx_ver }}/${{ steps.build.outputs.release_name }}) **${{ steps.build.outputs.release_name }}**
+            <img src="https://image.flaticon.com/icons/svg/25/25345.svg" width="16"> [Download for macOS 10.14](../../releases/download/${{ steps.build.outputs.ccx_ver }}/${{ steps.build.outputs.release_name }}) **${{ steps.build.outputs.release_name }}**
             `SHA256 : ${{ steps.build.outputs.sha256 }}`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
