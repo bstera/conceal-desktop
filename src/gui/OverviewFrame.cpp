@@ -28,6 +28,7 @@
 #include "DepositModel.h"
 #include "ExchangeProvider.h"
 #include "MainWindow.h"
+#include "MainPasswordDialog.h"
 #include "MessageDetailsDialog.h"
 #include "MessagesModel.h"
 #include "NewAddressDialog.h"
@@ -946,6 +947,13 @@ namespace WalletGui
     m_ui->overviewBox->raise();
     m_ui->lm_newTransferButton->show();
     m_ui->lm_newMessageButton->show();
+    m_ui->leftMenu->raise();
+    m_ui->leftMenu->show();
+    m_ui->statusBox->raise();
+    m_ui->statusBox->show();
+    m_ui->headerBox->raise();
+    m_ui->headerBox->show();
+    setStyles(Settings::instance().getFontSize());
   }
 
   void OverviewFrame::aboutClicked()
@@ -1737,6 +1745,13 @@ namespace WalletGui
     dashboardClicked();
   }
 
+  void OverviewFrame::goToWelcomeFrame(){
+    m_ui->darkness->show();
+    m_ui->darkness->raise();
+    Q_EMIT welcomeFrameSignal();
+    dashboardClicked();
+  }
+
   void OverviewFrame::backupClicked()
   {
     if (Settings::instance().isTrackingMode())
@@ -2109,9 +2124,9 @@ namespace WalletGui
     QDesktopServices::openUrl(QUrl("https://tradeogre.com/exchange/BTC-CCX", QUrl::TolerantMode));
   }
 
-  void OverviewFrame::qtradeClicked()
+  void OverviewFrame::wikiClicked()
   {
-    QDesktopServices::openUrl(QUrl("https://qtrade.io/market/CCX_BTC", QUrl::TolerantMode));
+    QDesktopServices::openUrl(QUrl("https://conceal.network/wiki/doku.php?id=start", QUrl::TolerantMode));
   }
 
   void OverviewFrame::helpClicked()
@@ -2168,10 +2183,43 @@ namespace WalletGui
     m_ui->lockBox->raise();
   }
 
+  void OverviewFrame::change() {
+    m_ui->lockBox->hide();
+    m_ui->darkness->show();
+    m_ui->darkness->raise();
+    welcomeFrameSignal();
+  }
+
+  bool OverviewFrame::askForWalletPassword(bool _error) {
+    if (!Settings::instance().isEncrypted() && WalletAdapter::instance().checkWalletPassword(""))
+      return true;
+
+    m_ui->darkness->show();
+    m_ui->darkness->raise();
+
+    MainPasswordDialog dlg(_error, this);
+    connect(&dlg, &MainPasswordDialog::changeSignal, this, &OverviewFrame::change);
+    dlg.setModal(true);
+    dlg.setWindowFlags(Qt::FramelessWindowHint);
+    dlg.move((this->width() - dlg.width()) / 2, (height() - dlg.height()) / 2);
+
+    if (dlg.exec() == QDialog::Accepted) {
+      QString password = dlg.getPassword();
+      if (!WalletAdapter::instance().checkWalletPassword(password)) {
+        return askForWalletPassword(true);
+      } else {
+        m_ui->darkness->hide();
+        return true;
+      }
+    }
+    m_ui->darkness->hide();
+    return false;
+  }
+
   /* Unlock the wallet with the password */
   void OverviewFrame::unlockWallet()
   {
-    if (!checkWalletPassword())
+    if (!askForWalletPassword())
     {
       return;
     }
