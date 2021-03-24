@@ -248,6 +248,12 @@ namespace WalletGui
     m_ui->m_depositView->header()->resizeSection(1, 100);
     m_ui->m_depositView->header()->resizeSection(2, 200);
     m_ui->m_depositView->header()->resizeSection(3, 50);
+    
+    m_chartView = new QChartView();
+    m_chartView->setRenderHint(QPainter::Antialiasing);
+    m_chartView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+
+    m_ui->verticalLayout_9->addWidget(m_chartView);
 
     /* Connect signals */
     connect(&WalletAdapter::instance(), &WalletAdapter::walletSendTransactionCompletedSignal, this, &OverviewFrame::sendTransactionCompleted, Qt::QueuedConnection);
@@ -528,45 +534,16 @@ namespace WalletGui
     connect(nam, &QNetworkAccessManager::finished, this, &OverviewFrame::downloadFinished);
 
     QUrl url;
-    QString link = "";
-    QSize size = m_ui->groupBox->size();
-    int width = size.width();
-    int height = size.height();
+    QString link;
 
-    link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency + "&days=30&priceDecimals=2&xPoints=24&width=1170&height=560&dateFormat=MM-DD";
+    link = QString(
+               "https://api.coingecko.com/api/v3/coins/conceal/market_chart?vs_currency=%1&days=30")
+               .arg(currency);
 
-    /** 1280 x 720 or smaller is the default */
-    if (width < 1363) {
-      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency + "&days=7&priceDecimals=2&xPoints=12&width=526&height=273&dateFormat=MM-DD";
-    }
-    
-    /** 1365 x 768 */
-    if ((width == 1363) && (height == 750) ){
-      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency + "&days=7&priceDecimals=2&xPoints=12&width=618&height=297&dateFormat=MM-DD";
-    }
-
-    /** 1440 x 900 */
-    if ((width == 1438) && (height == 868))
-    {
-      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency + "&days=7&priceDecimals=2&xPoints=12&width=695&height=416&dateFormat=MM-DD";
-    }
-
-    /** 1680 x 1050 */
-    if ((width == 1678) && (height == 1008))
-    {
-      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency + "&days=14&priceDecimals=2&xPoints=12&width=927&height=555&dateFormat=MM-DD";
-    }
-
-    /** This should cover 1920 and above */
-    if (width > 1599)
-    {
-      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency + "&days=30&priceDecimals=2&xPoints=24&width=1170&height=560&dateFormat=MM-DD";
-    }
     url = QUrl::fromUserInput(link);
 
     QNetworkRequest request(url);
     nam->get(request);
-
   }
 
   /* Show the name of the opened wallet */
@@ -580,10 +557,61 @@ namespace WalletGui
   /* Download is done, set the chart as the pixmap */
   void OverviewFrame::downloadFinished(QNetworkReply *reply)
   {
-    QPixmap pm;
-    pm.loadFromData(reply->readAll());
-    m_ui->m_chart->setPixmap(pm);
-    m_ui->m_chart->setScaledContents(true);
+    QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
+
+    QLineSeries *series = new QLineSeries();
+
+    QPen seriesPen;
+    seriesPen.setWidth(2);
+    seriesPen.setColor("orange");
+    series->setPen(seriesPen);
+
+    if (!document["prices"].isArray())
+    {
+      return;
+    }
+
+    QJsonArray priceList = document["prices"].toArray();
+
+    foreach (const QJsonValue info, priceList)
+    {
+      if (!info.isArray())
+      {
+        return;
+      }
+      QJsonArray array = info.toArray();
+      series->append(array.at(0).toDouble(), array.at(1).toDouble());
+    }
+
+    QChart *chart = new QChart();
+    chart->setBackgroundVisible(false);
+    chart->addSeries(series);
+    chart->legend()->hide();
+
+    QDateTimeAxis *axisX = new QDateTimeAxis;
+    axisX->setTickCount(10);
+    axisX->setFormat("MM/dd");
+    axisX->setLabelsFont(currentFont);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    QValueAxis *axisY = new QValueAxis;
+    axisY->setLabelFormat("%.2f");
+    axisY->setLabelsFont(currentFont);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    QColor chartColor = QRgb(0x999999);
+
+    axisX->setLabelsColor(chartColor);
+    axisX->setLinePenColor(chartColor);
+    axisX->setGridLineColor(chartColor);
+
+    axisY->setLabelsColor(chartColor);
+    axisY->setLinePenColor(chartColor);
+    axisY->setGridLineColor(chartColor);
+
+    m_chartView->setChart(chart);
 
     int startingFontSize = Settings::instance().getFontSize();
     setStyles(startingFontSize);
@@ -715,7 +743,7 @@ namespace WalletGui
   void OverviewFrame::resizeEvent(QResizeEvent *event)
   {
     //if (width() > image.width() || height() > image.height())
-    loadChart();
+    // loadChart();
   }
 
   /* What happens when the locked investment balance changes */
