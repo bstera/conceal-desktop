@@ -9,7 +9,9 @@
 
 #include <IWalletLegacy.h>
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
 #include <QtCharts>
+#endif
 #include <QFrame>
 #include <QNetworkAccessManager>
 #include <QStyledItemDelegate>
@@ -86,7 +88,9 @@ private:
   QMenu* contextMenu;
   bool paymentIDRequired = false;
   QString exchangeName = "";
+  #if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
   QChartView* m_chartView;
+  #endif
 
 
   void onPriceFound(QJsonObject &result);

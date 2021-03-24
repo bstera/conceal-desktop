@@ -248,12 +248,16 @@ namespace WalletGui
     m_ui->m_depositView->header()->resizeSection(1, 100);
     m_ui->m_depositView->header()->resizeSection(2, 200);
     m_ui->m_depositView->header()->resizeSection(3, 50);
-    
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
     m_chartView = new QChartView();
     m_chartView->setRenderHint(QPainter::Antialiasing);
     m_chartView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 
     m_ui->verticalLayout_9->addWidget(m_chartView);
+#else
+    m_ui->verticalLayout_9->addWidget(new QLabel("Chart not supported"));
+#endif
 
     /* Connect signals */
     connect(&WalletAdapter::instance(), &WalletAdapter::walletSendTransactionCompletedSignal, this, &OverviewFrame::sendTransactionCompleted, Qt::QueuedConnection);
@@ -557,6 +561,7 @@ namespace WalletGui
   /* Download is done, set the chart as the pixmap */
   void OverviewFrame::downloadFinished(QNetworkReply *reply)
   {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
 
     // We need to have the object contained in the document to ensure compatibility with Qt < 5.10
@@ -615,6 +620,7 @@ namespace WalletGui
     axisY->setGridLineColor(chartColor);
 
     m_chartView->setChart(chart);
+#endif
 
     int startingFontSize = Settings::instance().getFontSize();
     setStyles(startingFontSize);
