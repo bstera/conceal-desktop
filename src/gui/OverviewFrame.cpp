@@ -559,6 +559,9 @@ namespace WalletGui
   {
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
 
+    // We need to have the object contained in the document to ensure compatibility with Qt < 5.10
+    QJsonObject documentAsObject = document.object();
+
     QLineSeries *series = new QLineSeries();
 
     QPen seriesPen;
@@ -566,12 +569,12 @@ namespace WalletGui
     seriesPen.setColor("orange");
     series->setPen(seriesPen);
 
-    if (!document["prices"].isArray())
+    if (!documentAsObject["prices"].isArray())
     {
       return;
     }
 
-    QJsonArray priceList = document["prices"].toArray();
+    QJsonArray priceList = documentAsObject["prices"].toArray();
 
     foreach (const QJsonValue info, priceList)
     {
@@ -1976,7 +1979,7 @@ namespace WalletGui
 
   void OverviewFrame::discordClicked()
   {
-    QDesktopServices::openUrl(QUrl("http://discord.conceal.network/", QUrl::TolerantMode));
+    QDesktopServices::openUrl(QUrl("https://discord.conceal.network/", QUrl::TolerantMode));
   }
 
   void OverviewFrame::twitterClicked()
