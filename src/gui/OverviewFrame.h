@@ -88,9 +88,11 @@ private:
   QMenu* contextMenu;
   bool paymentIDRequired = false;
   QString exchangeName = "";
-  #if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
-  QChartView* m_chartView;
-  #endif
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+  QChartView *m_chartView;
+#else
+  QLabel *m_chart;
+#endif
 
 
   void onPriceFound(QJsonObject &result);

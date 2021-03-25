@@ -256,7 +256,8 @@ namespace WalletGui
 
     m_ui->verticalLayout_9->addWidget(m_chartView);
 #else
-    m_ui->verticalLayout_9->addWidget(new QLabel("Chart not supported"));
+    m_chart = new QLabel();
+    m_ui->verticalLayout_9->addWidget(m_chart);
 #endif
 
     /* Connect signals */
@@ -540,9 +541,55 @@ namespace WalletGui
     QUrl url;
     QString link;
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+
     link = QString(
                "https://api.coingecko.com/api/v3/coins/conceal/market_chart?vs_currency=%1&days=30")
                .arg(currency);
+#else
+
+    QSize size = m_ui->groupBox->size();
+    int width = size.width();
+    int height = size.height();
+
+    link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency +
+           "&days=30&priceDecimals=2&xPoints=24&width=1170&height=560&dateFormat=MM-DD";
+
+    /** 1280 x 720 or smaller is the default */
+    if (width < 1363)
+    {
+      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency +
+             "&days=7&priceDecimals=2&xPoints=12&width=526&height=273&dateFormat=MM-DD";
+    }
+
+    /** 1365 x 768 */
+    if ((width == 1363) && (height == 750))
+    {
+      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency +
+             "&days=7&priceDecimals=2&xPoints=12&width=618&height=297&dateFormat=MM-DD";
+    }
+
+    /** 1440 x 900 */
+    if ((width == 1438) && (height == 868))
+    {
+      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency +
+             "&days=7&priceDecimals=2&xPoints=12&width=695&height=416&dateFormat=MM-DD";
+    }
+
+    /** 1680 x 1050 */
+    if ((width == 1678) && (height == 1008))
+    {
+      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency +
+             "&days=14&priceDecimals=2&xPoints=12&width=927&height=555&dateFormat=MM-DD";
+    }
+
+    /** This should cover 1920 and above */
+    if (width > 1599)
+    {
+      link = "http://walletapi.conceal.network/services/charts/price.png?vsCurrency=" + currency +
+             "&days=30&priceDecimals=2&xPoints=24&width=1170&height=560&dateFormat=MM-DD";
+    }
+#endif
 
     url = QUrl::fromUserInput(link);
 
@@ -620,6 +667,11 @@ namespace WalletGui
     axisY->setGridLineColor(chartColor);
 
     m_chartView->setChart(chart);
+#else
+    QPixmap pm;
+    pm.loadFromData(reply->readAll());
+    m_chart->setPixmap(pm);
+    m_chart->setScaledContents(true);
 #endif
 
     int startingFontSize = Settings::instance().getFontSize();
@@ -751,8 +803,9 @@ namespace WalletGui
 
   void OverviewFrame::resizeEvent(QResizeEvent *event)
   {
-    //if (width() > image.width() || height() > image.height())
-    // loadChart();
+#if (QT_VERSION < QT_VERSION_CHECK(5, 9, 0))
+    loadChart();
+#endif
   }
 
   /* What happens when the locked investment balance changes */
