@@ -282,6 +282,7 @@ target_link_libraries(${PROJECT_NAME} Qt5::Gui)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::Network)
 if(Qt5Charts_FOUND)
+add_definitions(/DHAVE_CHART)
 target_link_libraries(${PROJECT_NAME} Qt5::Charts)  
 endif(Qt5Charts_FOUND)
 

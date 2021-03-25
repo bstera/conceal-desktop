@@ -249,7 +249,7 @@ namespace WalletGui
     m_ui->m_depositView->header()->resizeSection(2, 200);
     m_ui->m_depositView->header()->resizeSection(3, 50);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+#ifdef HAVE_CHART
     m_chartView = new QChartView();
     m_chartView->setRenderHint(QPainter::Antialiasing);
     m_chartView->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
@@ -541,7 +541,7 @@ namespace WalletGui
     QUrl url;
     QString link;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+#ifdef HAVE_CHART
 
     link = QString(
                "https://api.coingecko.com/api/v3/coins/conceal/market_chart?vs_currency=%1&days=30")
@@ -608,7 +608,7 @@ namespace WalletGui
   /* Download is done, set the chart as the pixmap */
   void OverviewFrame::downloadFinished(QNetworkReply *reply)
   {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+#ifdef HAVE_CHART
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
 
     // We need to have the object contained in the document to ensure compatibility with Qt < 5.10
@@ -803,7 +803,7 @@ namespace WalletGui
 
   void OverviewFrame::resizeEvent(QResizeEvent *event)
   {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 9, 0))
+#ifndef HAVE_CHART
     loadChart();
 #endif
   }

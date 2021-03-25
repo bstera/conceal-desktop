@@ -9,7 +9,7 @@
 
 #include <IWalletLegacy.h>
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+#ifdef HAVE_CHART
 #include <QtCharts>
 #endif
 #include <QFrame>
@@ -88,7 +88,7 @@ private:
   QMenu* contextMenu;
   bool paymentIDRequired = false;
   QString exchangeName = "";
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 9, 0))
+#ifdef HAVE_CHART
   QChartView *m_chartView;
 #else
   QLabel *m_chart;
