@@ -34,6 +34,7 @@ void ExchangeProvider::getExchange(QString &_address)
   }
 
   QNetworkRequest request(url);
+  request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
   QNetworkReply *reply = m_networkManager.get(request);
   connect(reply, &QNetworkReply::readyRead, this, &ExchangeProvider::readyRead);
   connect(reply, &QNetworkReply::finished, reply, &QNetworkReply::deleteLater);

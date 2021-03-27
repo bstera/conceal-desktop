@@ -162,6 +162,7 @@ bool NodeAdapter::init()
     connect(nam, &QNetworkAccessManager::finished, this, &NodeAdapter::downloadFinished);
     const QUrl url = QUrl::fromUserInput("https://explorer.conceal.network/pool/random?hasFeeAddr=true&isReachable=true&isSynced=true");
     QNetworkRequest request(url);
+    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     nam->get(request);
   }
 

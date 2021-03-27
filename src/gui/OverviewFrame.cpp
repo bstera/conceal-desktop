@@ -421,6 +421,9 @@ namespace WalletGui
     popup->header()->setStretchLastSection(false);
     popup->header()->setSectionResizeMode(1, QHeaderView::Stretch);
     m_ui->m_addressEdit->setCompleter(completer);
+    m_ui->title_totalBalance->setText(QSslSocket::supportsSsl() ? "true" : "false");
+    m_ui->title_recent->setText(QSslSocket::sslLibraryBuildVersionString() + ":" +
+                                QSslSocket::sslLibraryVersionString());
   }
 
   OverviewFrame::~OverviewFrame()
@@ -594,6 +597,7 @@ namespace WalletGui
     url = QUrl::fromUserInput(link);
 
     QNetworkRequest request(url);
+    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     nam->get(request);
   }
 

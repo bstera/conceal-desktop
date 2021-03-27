@@ -30,6 +30,7 @@ namespace WalletGui
     QUrl url = QUrl::fromUserInput("https://explorer.conceal.network/services/market/info?vsCurrencies=usd,eur,gbp,rub,try,cny,aud,nzd,sgd,lkr,vnd,isk,inr,idr,isk,hkd,pab,zar,krw,brl,byn,vef,mur,irr,sar,aed,pkr,egp,ils,nok,lsl,uah,ron,kzt,myr,ron,mxn");
 
     QNetworkRequest request(url);
+    request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     QNetworkReply *reply = m_networkManager.get(request);
     connect(reply, &QNetworkReply::readyRead, this, &PriceProvider::readyRead);
     connect(reply, &QNetworkReply::finished, reply, &QNetworkReply::deleteLater);
