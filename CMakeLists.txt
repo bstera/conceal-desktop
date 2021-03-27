@@ -23,6 +23,31 @@ include_directories(${CMAKE_BINARY_DIR}
     cryptonote/include
     cryptonote/src)
 
+
+find_package(OpenSSL)
+
+if (NOT OPENSSL_FOUND)
+  find_package(PkgConfig)
+
+  if (PKG_CONFIG_FOUND)
+      pkg_search_module(OPENSSL openssl)
+  endif()
+endif()
+
+if (OPENSSL_FOUND)
+  ## On non MSVC build systems, we need to link ldl with the static OpenSSL library
+  if (NOT MSVC)
+      set(OPENSSL_LIBRARIES "${OPENSSL_LIBRARIES};dl")
+  endif ()
+
+  include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
+  add_definitions(-DCPPHTTPLIB_OPENSSL_SUPPORT)
+  message(STATUS "OpenSSL Found: ${OPENSSL_INCLUDE_DIR}")
+  message(STATUS "OpenSSL Libraries: ${OPENSSL_LIBRARIES}")
+else ()
+  message(STATUS "OpenSSL Found: No... Skipping...")
+endif ()
+
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
