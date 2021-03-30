@@ -92,14 +92,10 @@ jobs:
 
           cd "$build_folder/$release_folder"
 
-          ls .
-
-          ls C:\Windows\system32
-          cp C:\Windows\system32\libcrypto*.dll .
-          cp C:\Windows\system32\libssl*.dll .
-          ls .
-
           mkdir "Final"
+          cp C:\Windows\system32\libcrypto*.dll "Final/"
+          cp C:\Windows\system32\libssl*.dll "Final/"
+
           windeployqt --release CONCEAL-GUI.exe --dir "Final/" --no-translations --no-opengl-sw
           cd ../../
           makensis ConcealWallet.nsi
