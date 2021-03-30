@@ -131,9 +131,8 @@ jobs:
         run: |
           ccx_version=${GITHUB_SHA::7}
           release_name=ccx-desktop-"${{ matrix.os }}"-dev-"$ccx_version"
-        env:
-          CCX_VERSION: $ccx_version
-          RELEASE_NAME: $release_name
+          echo "CCX_VERSION=$ccx_version" >> $GITHUB_ENV
+          echo "RELEASE_NAME=$release_name" >> $GITHUB_ENV
 
       - name: Install dedendencies
         run: |
@@ -147,14 +146,14 @@ jobs:
 
       - name: Build
         run: |
-          echo "${{ env.RELEASE_NAME }}"
+          echo "$RELEASE_NAME"
           make -j2 build-release
-          mkdir "${{ env.RELEASE_NAME }}"
-          mkdir -p "${{ env.RELEASE_NAME }}"/icon
-          mv build/release/CONCEAL-GUI ${{ env.RELEASE_NAME }}
-          cp conceal-desktop.desktop ${{ env.RELEASE_NAME }}
-          cp src/images/conceal.png ${{ env.RELEASE_NAME }}/icon
-          tar -czf "${{ env.RELEASE_NAME }}".tar.gz "${{ env.RELEASE_NAME }}"
+          mkdir "$RELEASE_NAME"
+          mkdir -p "$RELEASE_NAME"/icon
+          mv build/release/CONCEAL-GUI $RELEASE_NAME
+          cp conceal-desktop.desktop $RELEASE_NAME
+          cp src/images/conceal.png $RELEASE_NAME/icon
+          tar -czf "$RELEASE_NAME".tar.gz "$RELEASE_NAME"
 
           echo "::set-output name=release_name::${RELEASE_NAME}"
           echo "::set-output name=artifact_path::$release_name.tar.gz"
