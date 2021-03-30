@@ -91,6 +91,14 @@ jobs:
           $release_folder = "${{ steps.build.outputs.release_folder }}"
 
           cd "$build_folder/$release_folder"
+
+          ls .
+
+          ls C:\Windows\system32
+          cp C:\Windows\system32\libcrypto*.dll .
+          cp C:\Windows\system32\libssl*.dll .
+          ls .
+
           mkdir "Final"
           windeployqt --release CONCEAL-GUI.exe --dir "Final/" --no-translations --no-opengl-sw
           cd ../../
