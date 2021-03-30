@@ -93,7 +93,9 @@ jobs:
           cd "$build_folder/$release_folder"
 
           mkdir "Final"
-          
+
+          choco install openssl -y
+
           cp "C:\Program Files\OpenSSL-Win64\libcrypto*.dll" "Final/"
           cp "C:\Program Files\OpenSSL-Win64\libssl*.dll" "Final/"
 
@@ -117,6 +119,7 @@ jobs:
   build-linux:
     name: Linux
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04]
     runs-on: ${{ matrix.os }}
@@ -144,13 +147,14 @@ jobs:
 
       - name: Build
         run: |
+          echo "${{ env.RELEASE_NAME }}"
           make -j2 build-release
-          mkdir "$RELEASE_NAME"
-          mkdir -p "$RELEASE_NAME"/icon
-          mv build/release/CONCEAL-GUI $RELEASE_NAME
-          cp conceal-desktop.desktop $RELEASE_NAME
-          cp src/images/conceal.png $RELEASE_NAME/icon
-          tar -czf "$RELEASE_NAME".tar.gz "$RELEASE_NAME"
+          mkdir "${{ env.RELEASE_NAME }}"
+          mkdir -p "${{ env.RELEASE_NAME }}"/icon
+          mv build/release/CONCEAL-GUI ${{ env.RELEASE_NAME }}
+          cp conceal-desktop.desktop ${{ env.RELEASE_NAME }}
+          cp src/images/conceal.png ${{ env.RELEASE_NAME }}/icon
+          tar -czf "${{ env.RELEASE_NAME }}".tar.gz "${{ env.RELEASE_NAME }}"
 
           echo "::set-output name=release_name::${RELEASE_NAME}"
           echo "::set-output name=artifact_path::$release_name.tar.gz"
