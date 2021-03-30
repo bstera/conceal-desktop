@@ -156,7 +156,7 @@ jobs:
           tar -czf "$RELEASE_NAME".tar.gz "$RELEASE_NAME"
 
           echo "::set-output name=release_name::${RELEASE_NAME}"
-          echo "::set-output name=artifact_path::$release_name.tar.gz"
+          echo "::set-output name=artifact_path::${RELEASE_NAME}.tar.gz"
 
       - name: Upload To GitHub Artifacts
         uses: actions/upload-artifact@v2
