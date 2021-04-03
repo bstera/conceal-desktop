@@ -179,10 +179,11 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install dependencies
         run: |
-          brew install boost qt5
+          brew install boost qt@5
+          echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
 
       - name: Clone conceal-core
         run: |
