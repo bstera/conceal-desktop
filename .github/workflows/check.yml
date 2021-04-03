@@ -179,15 +179,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-          modules: "qtcharts"
-
+      
       - name: Install dependencies
         run: |
-          brew install boost
+          brew install boost qt5
 
       - name: Clone conceal-core
         run: |
