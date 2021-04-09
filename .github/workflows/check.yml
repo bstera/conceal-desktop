@@ -210,6 +210,7 @@ jobs:
       - name: Build
         id: build
         run: |
+          source ~/.bash_profile
           echo $PATH
           echo $PKG_CONFIG_PATH
           echo $LDFLAGS
