@@ -122,6 +122,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04]
+        include:
+          - os: ubuntu-16.04
+            NAME: ubuntu-1604
+
+          - os: ubuntu-18.04
+            NAME: ubuntu-1804
+
+          - os: ubuntu-20.04
+            NAME: ubuntu-2004
+
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -130,7 +140,7 @@ jobs:
       - name: Prepare version
         run: |
           ccx_version=${GITHUB_SHA::7}
-          release_name=ccx-desktop-"${{ matrix.os }}"-dev-"$ccx_version"
+          release_name=ccx-desktop-"${{ matrix.NAME }}"-dev-"$ccx_version"
           echo "CCX_VERSION=$ccx_version" >> $GITHUB_ENV
           echo "RELEASE_NAME=$release_name" >> $GITHUB_ENV
 
@@ -184,15 +194,26 @@ jobs:
         run: |
           brew install boost qt@5
           echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
+          export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
+          export LDFLAGS="-L/usr/local/opt/qt@5/lib"
+          export CPPFLAGS="-I/usr/local/opt/qt@5/include"
 
       - name: Clone conceal-core
         run: |
+          echo $PATH
+          echo $PKG_CONFIG_PATH
+          echo $LDFLAGS
+          echo $CPPFLAGS
           rm -rf cryptonote
           git clone https://github.com/ConcealNetwork/conceal-core.git cryptonote
 
       - name: Build
         id: build
         run: |
+          echo $PATH
+          echo $PKG_CONFIG_PATH
+          echo $LDFLAGS
+          echo $CPPFLAGS
           build_folder="build/release"
           ccx_ver=${GITHUB_SHA::7}
           release_name="ccx-desktop-macOS-dev-$ccx_ver"
