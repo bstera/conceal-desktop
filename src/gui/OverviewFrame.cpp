@@ -491,7 +491,7 @@ namespace WalletGui
     std::string theAddress = _address.toStdString();
     std::string start = theAddress.substr(0, 6);
     std::string end = theAddress.substr(92, 6);
-    m_ui->m_copyAddressButton_3->setText("Wallet Address: " + QString::fromStdString(start) + "......" + QString::fromStdString(end));
+    m_ui->m_copyAddressButton_3->setText("Address: " + QString::fromStdString(start) + "......" + QString::fromStdString(end));
 
     /* Show/hide the encrypt wallet button */
     if (!Settings::instance().isEncrypted())
@@ -1155,7 +1155,8 @@ namespace WalletGui
   void OverviewFrame::setPercentage100()
   {
     calculateFee();
-    uint64_t amount = m_actualBalance - m_actualFee;
+    uint64_t maxAmount = WalletAdapter::instance().getWalletMaximum();    
+    uint64_t amount = maxAmount - m_actualFee;
     m_ui->m_amountEdit->setText(CurrencyAdapter::instance().formatAmount(amount));
   }
 
