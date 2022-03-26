@@ -4,7 +4,7 @@ include(CryptoNoteWallet.cmake)
 include(QREncode.cmake)
 
 if(APPLE)
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.12" CACHE STRING "Minimum OS X deployment version")  
+  set(CMAKE_OSX_DEPLOYMENT_TARGET "10.12" CACHE STRING "Minimum OS X deployment version")  
 endif(APPLE)
 
 project(${CN_PROJECT_NAME})
@@ -20,6 +20,7 @@ include_directories(${CMAKE_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     src
     cryptonote/external
+    cryptonote/external/miniupnpc/include
     cryptonote/include
     cryptonote/src)
 
@@ -54,16 +55,19 @@ add_definitions(-DGIT_REVISION=\"${GIT_REVISION}\")
 set(CMAKE_AUTOMOC ON)
 
 set(CRYPTONOTE_SOURCES
-  cryptonote/external/miniupnpc/connecthostport.c
-  cryptonote/external/miniupnpc/igd_desc_parse.c
-  cryptonote/external/miniupnpc/minisoap.c
-  cryptonote/external/miniupnpc/miniupnpc.c
-  cryptonote/external/miniupnpc/miniwget.c
-  cryptonote/external/miniupnpc/minixml.c
-  cryptonote/external/miniupnpc/portlistingparse.c
-  cryptonote/external/miniupnpc/receivedata.c
-  cryptonote/external/miniupnpc/upnpcommands.c
-  cryptonote/external/miniupnpc/upnpreplyparse.c
+  cryptonote/external/miniupnpc/src/addr_is_reserved.c
+  cryptonote/external/miniupnpc/src/connecthostport.c
+  cryptonote/external/miniupnpc/src/igd_desc_parse.c
+  cryptonote/external/miniupnpc/src/minisoap.c
+  cryptonote/external/miniupnpc/src/minissdpc.c
+  cryptonote/external/miniupnpc/src/miniupnpc.c
+  cryptonote/external/miniupnpc/src/miniwget.c
+  cryptonote/external/miniupnpc/src/minixml.c
+  cryptonote/external/miniupnpc/src/portlistingparse.c
+  cryptonote/external/miniupnpc/src/receivedata.c
+  cryptonote/external/miniupnpc/src/upnpcommands.c
+  cryptonote/external/miniupnpc/src/upnpdev.c
+  cryptonote/external/miniupnpc/src/upnpreplyparse.c
   cryptonote/src/Common/Base58.cpp
   cryptonote/src/Common/Base64.cpp  
   cryptonote/src/Common/CommandLine.cpp
@@ -196,16 +200,18 @@ qt5_wrap_ui(UIS ${FORMS})
 qt5_add_resources(RCC ${QRC})
 
 if("${ARCH}" STREQUAL "default")
-    set(ARCH_FLAG "")
-  else()
-    set(ARCH_FLAG "-march=x86-64")
-  endif()
+  set(ARCH_FLAG "")
+else()
+  set(ARCH_FLAG "-march=x86-64")
+endif()
+
+include(cryptonote/arm.cmake)
 
 if (WIN32)
   if (NOT MSVC)
 	message(FATAL_ERROR "Only MSVC is supported on this platform")
   endif ()
-  add_definitions(/D_CRT_SECURE_NO_WARNINGS /D_WIN32_WINNT=0x0600 /DSTATICLIB)
+  add_definitions(/D_CRT_SECURE_NO_WARNINGS /D_WIN32_WINNT=0x0600 /DMINIUPNP_STATICLIB)
   include_directories(cryptonote/src/platform/msc)
 
   set(PLATFORM_DIR Windows)
@@ -214,7 +220,6 @@ if (WIN32)
   set(QTMAIN Qt5::WinMain)
 
 elseif (UNIX)
-  set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} cryptonote/external/miniupnpc/minissdpc.c)
   if (APPLE)
     enable_language(ASM)
     file(GLOB_RECURSE OBJC_SOURCES src/*.mm)
@@ -245,8 +250,13 @@ elseif (UNIX)
     GET_FILENAME_COMPONENT(QT_LIB_DIR "${QT_LIB_DIR}" PATH)
   else(APPLE)
     set(PLATFORM_DIR Linux)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -maes -std=c++11")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -maes -std=c11")
+    if(NOT ARM)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -maes -std=c++11")
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -maes -std=c11")
+    else()
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
+    endif(NOT ARM)
   endif (APPLE)
 endif ()
 
@@ -256,9 +266,9 @@ set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} ${PLATFORM_SOURCES})
 
 add_library(${CRYPTONOTE_LIB} STATIC ${CRYPTONOTE_SOURCES})
 if (APPLE OR ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} -lresolv)
+  target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} -lresolv)
 else ()
-target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES})
+  target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES})
 endif ()
 set_target_properties(${CRYPTONOTE_LIB} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 
@@ -282,8 +292,8 @@ target_link_libraries(${PROJECT_NAME} Qt5::Gui)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 target_link_libraries(${PROJECT_NAME} Qt5::Network)
 if(Qt5Charts_FOUND)
-add_definitions(/DHAVE_CHART)
-target_link_libraries(${PROJECT_NAME} Qt5::Charts)  
+  add_definitions(/DHAVE_CHART)
+  target_link_libraries(${PROJECT_NAME} Qt5::Charts)  
 endif(Qt5Charts_FOUND)
 
 # Installation
@@ -314,8 +324,8 @@ elseif (UNIX)
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_VENDOR} <krypt0x@gmx.com>")
         set(CPACK_DEBIAN_PACKAGE_SECTION Office)
         set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-        set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Conceal GUI Wallet
- Conceal is a decentrilized privacy protected peer-to-peer
+        set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Conceal Desktop (GUI Wallet)
+ Conceal is a decentralized privacy protected peer-to-peer
  cryptocurrency and untraceable encrypted messaging system. Conceal is
  open-source; its design is public, nobody owns or controls Conceal and
  everyone can take part.
@@ -338,9 +348,9 @@ set(CPACK_PACKAGE_FILE_NAME "${CPACK_DEBIAN_PACKAGE_NAME}-${CPACK_PACKAGE_VERSIO
         set(CPACK_RPM_PACKAGE_LICENSE "GPL3")
         set(CPACK_RPM_PACKAGE_GROUP Office)
         set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qtbase >= 5.3.2, qt5-qtbase-gui >= 5.3.2")
-        set(CPACK_RPM_PACKAGE_SUMMARY "Conceal GUI Wallet")
-        set(CPACK_RPM_PACKAGE_DESCRIPTION "Open-source Conceal GUI wallet
- Conceal is a decentrilized privacy protected peer-to-peer
+        set(CPACK_RPM_PACKAGE_SUMMARY "Conceal Desktop (GUI Wallet)")
+        set(CPACK_RPM_PACKAGE_DESCRIPTION "Open-source Conceal Desktop (GUI Wallet)
+ Conceal is a decentralized privacy protected peer-to-peer
  cryptocurrency and untraceable encrypted messaging system. Conceal is
  open-source; its design is public, nobody owns or controls Conceal and
  everyone can take part.
